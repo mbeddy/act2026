@@ -1,0 +1,991 @@
+{
+  "weeklyData": [
+    {
+      "week": 1,
+      "date": "Mar 16–20",
+      "buyersOutreach": 18,
+      "delegatesOutreach": 95,
+      "exhibitorsOutreach": 22,
+      "sponsorshipOutreach": 60000,
+      "buyersReached": 6,
+      "delegatesConfirmed": 42,
+      "exhibitorsConfirmed": 7,
+      "sponsorshipSecured": 15000,
+      "notes": "Kickoff outreach — initial buyer and delegate contacts, first sponsor discussion"
+    },
+    {
+      "week": 2,
+      "date": "Mar 23–27",
+      "buyersOutreach": 0,
+      "delegatesOutreach": 0,
+      "exhibitorsOutreach": 0,
+      "sponsorshipOutreach": 0,
+      "buyersReached": 0,
+      "delegatesConfirmed": 0,
+      "exhibitorsConfirmed": 0,
+      "sponsorshipSecured": 0,
+      "notes": ""
+    },
+    {
+      "week": 3,
+      "date": "Mar 30–Apr 3",
+      "buyersOutreach": 0,
+      "delegatesOutreach": 0,
+      "exhibitorsOutreach": 0,
+      "sponsorshipOutreach": 0,
+      "buyersReached": 0,
+      "delegatesConfirmed": 0,
+      "exhibitorsConfirmed": 0,
+      "sponsorshipSecured": 0,
+      "notes": ""
+    },
+    {
+      "week": 4,
+      "date": "Apr 6–10",
+      "buyersOutreach": 0,
+      "delegatesOutreach": 0,
+      "exhibitorsOutreach": 0,
+      "sponsorshipOutreach": 0,
+      "buyersReached": 0,
+      "delegatesConfirmed": 0,
+      "exhibitorsConfirmed": 0,
+      "sponsorshipSecured": 0,
+      "notes": ""
+    },
+    {
+      "week": 5,
+      "date": "Apr 13–17",
+      "buyersOutreach": 0,
+      "delegatesOutreach": 0,
+      "exhibitorsOutreach": 0,
+      "sponsorshipOutreach": 0,
+      "buyersReached": 0,
+      "delegatesConfirmed": 0,
+      "exhibitorsConfirmed": 0,
+      "sponsorshipSecured": 0,
+      "notes": ""
+    },
+    {
+      "week": 6,
+      "date": "Apr 20–24",
+      "buyersOutreach": 0,
+      "delegatesOutreach": 0,
+      "exhibitorsOutreach": 0,
+      "sponsorshipOutreach": 0,
+      "buyersReached": 0,
+      "delegatesConfirmed": 0,
+      "exhibitorsConfirmed": 0,
+      "sponsorshipSecured": 0,
+      "notes": ""
+    },
+    {
+      "week": 7,
+      "date": "Apr 27–May 1",
+      "buyersOutreach": 0,
+      "delegatesOutreach": 0,
+      "exhibitorsOutreach": 0,
+      "sponsorshipOutreach": 0,
+      "buyersReached": 0,
+      "delegatesConfirmed": 0,
+      "exhibitorsConfirmed": 0,
+      "sponsorshipSecured": 0,
+      "notes": ""
+    },
+    {
+      "week": 8,
+      "date": "May 4–8",
+      "buyersOutreach": 0,
+      "delegatesOutreach": 0,
+      "exhibitorsOutreach": 0,
+      "sponsorshipOutreach": 0,
+      "buyersReached": 0,
+      "delegatesConfirmed": 0,
+      "exhibitorsConfirmed": 0,
+      "sponsorshipSecured": 0,
+      "notes": ""
+    },
+    {
+      "week": 9,
+      "date": "May 11–15",
+      "buyersOutreach": 0,
+      "delegatesOutreach": 0,
+      "exhibitorsOutreach": 0,
+      "sponsorshipOutreach": 0,
+      "buyersReached": 0,
+      "delegatesConfirmed": 0,
+      "exhibitorsConfirmed": 0,
+      "sponsorshipSecured": 0,
+      "notes": ""
+    },
+    {
+      "week": 10,
+      "date": "May 18–22",
+      "buyersOutreach": 0,
+      "delegatesOutreach": 0,
+      "exhibitorsOutreach": 0,
+      "sponsorshipOutreach": 0,
+      "buyersReached": 0,
+      "delegatesConfirmed": 0,
+      "exhibitorsConfirmed": 0,
+      "sponsorshipSecured": 0,
+      "notes": ""
+    },
+    {
+      "week": 11,
+      "date": "May 25–31",
+      "buyersOutreach": 0,
+      "delegatesOutreach": 0,
+      "exhibitorsOutreach": 0,
+      "sponsorshipOutreach": 0,
+      "buyersReached": 0,
+      "delegatesConfirmed": 0,
+      "exhibitorsConfirmed": 0,
+      "sponsorshipSecured": 0,
+      "notes": ""
+    }
+  ],
+  "kpiTargets": {
+    "buyers": 100,
+    "delegates": 1000,
+    "exhibitors": 152,
+    "sponsorship": 360000
+  },
+  "delegateCategories": [
+    {
+      "name": "Cooperative & Producer Unions",
+      "shortName": "Coop & Producers",
+      "target": 200,
+      "outreach": 0,
+      "confirmed": 0
+    },
+    {
+      "name": "Sustainable & Climate-Smart Growers",
+      "shortName": "Sustainable Growers",
+      "target": 120,
+      "outreach": 0,
+      "confirmed": 0
+    },
+    {
+      "name": "Agripreneurs",
+      "shortName": "Agripreneurs",
+      "target": 100,
+      "outreach": 0,
+      "confirmed": 0
+    },
+    {
+      "name": "Youth in Coffee and Tea",
+      "shortName": "Youth",
+      "target": 100,
+      "outreach": 0,
+      "confirmed": 0
+    },
+    {
+      "name": "Financial and Logistics Sector",
+      "shortName": "Finance & Logistics",
+      "target": 100,
+      "outreach": 0,
+      "confirmed": 0
+    },
+    {
+      "name": "Innovative Coffee & Tea Products",
+      "shortName": "Innovative Products",
+      "target": 80,
+      "outreach": 0,
+      "confirmed": 0
+    },
+    {
+      "name": "Distributors",
+      "shortName": "Distributors",
+      "target": 70,
+      "outreach": 0,
+      "confirmed": 0
+    },
+    {
+      "name": "Women in Coffee & Tea",
+      "shortName": "Women in C&T",
+      "target": 50,
+      "outreach": 0,
+      "confirmed": 0
+    },
+    {
+      "name": "Academia & Research Institutions",
+      "shortName": "Academia & Research",
+      "target": 50,
+      "outreach": 0,
+      "confirmed": 0
+    },
+    {
+      "name": "Embassies and Diplomats",
+      "shortName": "Embassies",
+      "target": 50,
+      "outreach": 0,
+      "confirmed": 0
+    },
+    {
+      "name": "Tea and Coffee Enthusiasts",
+      "shortName": "Enthusiasts",
+      "target": 50,
+      "outreach": 0,
+      "confirmed": 0
+    },
+    {
+      "name": "Inclusive Enterprises & PWDs",
+      "shortName": "Inclusive Enterprises",
+      "target": 30,
+      "outreach": 0,
+      "confirmed": 0
+    }
+  ],
+  "exhibitorCategories": [
+    {
+      "name": "Coffee Exporters & Producers",
+      "shortName": "Coffee Exporters",
+      "target": 40,
+      "outreach": 0,
+      "confirmed": 0
+    },
+    {
+      "name": "Tea Exporters",
+      "shortName": "Tea Exporters",
+      "target": 25,
+      "outreach": 0,
+      "confirmed": 0
+    },
+    {
+      "name": "Packaging & Value Addition Companies",
+      "shortName": "Packaging & Value",
+      "target": 15,
+      "outreach": 0,
+      "confirmed": 0
+    },
+    {
+      "name": "Retailers and Coffee Chains",
+      "shortName": "Retailers & Chains",
+      "target": 10,
+      "outreach": 0,
+      "confirmed": 0
+    },
+    {
+      "name": "Finance Institutions",
+      "shortName": "Finance",
+      "target": 10,
+      "outreach": 0,
+      "confirmed": 0
+    },
+    {
+      "name": "Trade & Export Promotion Bodies",
+      "shortName": "Trade & Export",
+      "target": 10,
+      "outreach": 0,
+      "confirmed": 0
+    },
+    {
+      "name": "Logistics & Freight Companies",
+      "shortName": "Logistics",
+      "target": 5,
+      "outreach": 0,
+      "confirmed": 0
+    },
+    {
+      "name": "Coffee & Tea Technology Companies",
+      "shortName": "Technology",
+      "target": 5,
+      "outreach": 0,
+      "confirmed": 0
+    },
+    {
+      "name": "Sustainability & Certification Bodies",
+      "shortName": "Sustainability",
+      "target": 5,
+      "outreach": 0,
+      "confirmed": 0
+    },
+    {
+      "name": "Brokers and Distributors",
+      "shortName": "Brokers",
+      "target": 5,
+      "outreach": 0,
+      "confirmed": 0
+    },
+    {
+      "name": "Warehouses",
+      "shortName": "Warehouses",
+      "target": 5,
+      "outreach": 0,
+      "confirmed": 0
+    },
+    {
+      "name": "Equipment and Machineries",
+      "shortName": "Equipment",
+      "target": 5,
+      "outreach": 0,
+      "confirmed": 0
+    },
+    {
+      "name": "Government Regulator",
+      "shortName": "Government",
+      "target": 5,
+      "outreach": 0,
+      "confirmed": 0
+    },
+    {
+      "name": "Private Labels",
+      "shortName": "Private Labels",
+      "target": 5,
+      "outreach": 0,
+      "confirmed": 0
+    },
+    {
+      "name": "Disaster Impact on Coffee & Tea",
+      "shortName": "Disaster Impact",
+      "target": 2,
+      "outreach": 0,
+      "confirmed": 0
+    }
+  ],
+  "sponsorshipLevels": [
+    {
+      "level": "Platinum",
+      "unitPrice": 50000,
+      "qty": 1,
+      "total": 50000,
+      "color": "#E5E4E2",
+      "outreach": 0,
+      "confirmed": 0
+    },
+    {
+      "level": "Diamond",
+      "unitPrice": 35000,
+      "qty": 2,
+      "total": 70000,
+      "color": "#B9F2FF",
+      "outreach": 0,
+      "confirmed": 0
+    },
+    {
+      "level": "Gold",
+      "unitPrice": 25000,
+      "qty": 4,
+      "total": 100000,
+      "color": "#C8A42A",
+      "outreach": 0,
+      "confirmed": 0
+    },
+    {
+      "level": "Silver",
+      "unitPrice": 15000,
+      "qty": 6,
+      "total": 90000,
+      "color": "#C0C0C0",
+      "outreach": 0,
+      "confirmed": 0
+    },
+    {
+      "level": "Bronze",
+      "unitPrice": 5000,
+      "qty": 10,
+      "total": 50000,
+      "color": "#CD7F32",
+      "outreach": 0,
+      "confirmed": 0
+    }
+  ],
+  "regionalData": [
+    {
+      "region": "Europe",
+      "coffee": 20,
+      "tea": 12,
+      "total": 32,
+      "percentage": 32,
+      "fullyHostedCoffee": 4,
+      "fullyHostedTea": 1,
+      "fullyHostedTotal": 3,
+      "partiallyHostedCoffee": 12,
+      "partiallyHostedTea": 6,
+      "partiallyHostedTotal": 18,
+      "eventAccessCoffee": 4,
+      "eventAccessTea": 2,
+      "eventAccessTotal": 6,
+      "outreach": 0,
+      "confirmed": 0
+    },
+    {
+      "region": "Middle East",
+      "coffee": 10,
+      "tea": 8,
+      "total": 18,
+      "percentage": 18,
+      "fullyHostedCoffee": 6,
+      "fullyHostedTea": 5,
+      "fullyHostedTotal": 11,
+      "partiallyHostedCoffee": 4,
+      "partiallyHostedTea": 2,
+      "partiallyHostedTotal": 6,
+      "eventAccessCoffee": 1,
+      "eventAccessTea": 1,
+      "eventAccessTotal": 2,
+      "outreach": 0,
+      "confirmed": 0
+    },
+    {
+      "region": "North America",
+      "coffee": 12,
+      "tea": 6,
+      "total": 18,
+      "percentage": 18,
+      "fullyHostedCoffee": 2,
+      "fullyHostedTea": 1,
+      "fullyHostedTotal": 3,
+      "partiallyHostedCoffee": 6,
+      "partiallyHostedTea": 4,
+      "partiallyHostedTotal": 10,
+      "eventAccessCoffee": 2,
+      "eventAccessTea": 1,
+      "eventAccessTotal": 3,
+      "outreach": 0,
+      "confirmed": 0
+    },
+    {
+      "region": "Asia",
+      "coffee": 8,
+      "tea": 8,
+      "total": 16,
+      "percentage": 16,
+      "fullyHostedCoffee": 6,
+      "fullyHostedTea": 4,
+      "fullyHostedTotal": 9,
+      "partiallyHostedCoffee": 3,
+      "partiallyHostedTea": 1,
+      "partiallyHostedTotal": 4,
+      "eventAccessCoffee": 2,
+      "eventAccessTea": 1,
+      "eventAccessTotal": 3,
+      "outreach": 0,
+      "confirmed": 0
+    },
+    {
+      "region": "Intra-Africa",
+      "coffee": 10,
+      "tea": 6,
+      "total": 16,
+      "percentage": 16,
+      "fullyHostedCoffee": 8,
+      "fullyHostedTea": 4,
+      "fullyHostedTotal": 12,
+      "partiallyHostedCoffee": 1,
+      "partiallyHostedTea": 1,
+      "partiallyHostedTotal": 2,
+      "eventAccessCoffee": 5,
+      "eventAccessTea": 1,
+      "eventAccessTotal": 6,
+      "outreach": 0,
+      "confirmed": 0
+    }
+  ],
+  "programSections": [
+    {
+      "name": "Speakers",
+      "items": [
+        {
+          "id": "spk-1",
+          "item": "Keynote Speaker — Opening Ceremony",
+          "target": "1",
+          "confirmed": "1",
+          "percentComplete": 100,
+          "status": "on-track",
+          "owner": "Programme Lead",
+          "nextStep": "Confirm travel logistics",
+          "risk": "None"
+        },
+        {
+          "id": "spk-2",
+          "item": "Plenary Speakers (Industry Leaders)",
+          "target": "10",
+          "confirmed": "4",
+          "percentComplete": 40,
+          "status": "at-risk",
+          "owner": "Programme Lead",
+          "nextStep": "Follow up with 3 pending confirmations",
+          "risk": "Low response rate from East Africa region"
+        },
+        {
+          "id": "spk-3",
+          "item": "Technical Session Speakers",
+          "target": "20",
+          "confirmed": "6",
+          "percentComplete": 30,
+          "status": "behind",
+          "owner": "Programme Coordinator",
+          "nextStep": "Send second round of invitations",
+          "risk": "Late confirmations may affect schedule build"
+        },
+        {
+          "id": "spk-4",
+          "item": "Panel Moderators",
+          "target": "6",
+          "confirmed": "3",
+          "percentComplete": 50,
+          "status": "at-risk",
+          "owner": "Programme Coordinator",
+          "nextStep": "Confirm 2 remaining moderators by end of week",
+          "risk": "One moderator travelling from West Africa — visa needed"
+        },
+        {
+          "id": "spk-5",
+          "item": "Closing Ceremony Speaker",
+          "target": "1",
+          "confirmed": "0",
+          "percentComplete": 0,
+          "status": "behind",
+          "owner": "Programme Lead",
+          "nextStep": "Shortlist candidates and send invitations",
+          "risk": "High-profile speaker may have scheduling conflict"
+        },
+        {
+          "id": "spk-6",
+          "item": "Youth & Innovation Spotlight Speakers",
+          "target": "2",
+          "confirmed": "2",
+          "percentComplete": 100,
+          "status": "on-track",
+          "owner": "Youth Programme Lead",
+          "nextStep": "Brief speakers on format and timing",
+          "risk": "None"
+        }
+      ]
+    },
+    {
+      "name": "Topics",
+      "items": [
+        {
+          "id": "top-1",
+          "item": "Sustainability & Climate-Smart Coffee Farming",
+          "target": "1",
+          "confirmed": "1",
+          "percentComplete": 100,
+          "status": "on-track",
+          "owner": "Programme Lead",
+          "nextStep": "Assign speaker and finalize abstract",
+          "risk": "None"
+        },
+        {
+          "id": "top-2",
+          "item": "Specialty Coffee & Tea Market Trends",
+          "target": "1",
+          "confirmed": "1",
+          "percentComplete": 100,
+          "status": "on-track",
+          "owner": "Programme Coordinator",
+          "nextStep": "Confirm speaker brief",
+          "risk": "None"
+        },
+        {
+          "id": "top-3",
+          "item": "Finance & Investment in the Coffee Value Chain",
+          "target": "1",
+          "confirmed": "0",
+          "percentComplete": 0,
+          "status": "behind",
+          "owner": "Programme Lead",
+          "nextStep": "Identify speaker from financial sector",
+          "risk": "No confirmed speaker yet"
+        },
+        {
+          "id": "top-4",
+          "item": "Export Regulations & Trade Corridors",
+          "target": "1",
+          "confirmed": "1",
+          "percentComplete": 100,
+          "status": "on-track",
+          "owner": "Programme Coordinator",
+          "nextStep": "Share presentation template",
+          "risk": "None"
+        }
+      ]
+    },
+    {
+      "name": "Panels",
+      "items": [
+        {
+          "id": "pan-1",
+          "item": "Women in Coffee & Tea Leadership Panel",
+          "target": "1",
+          "confirmed": "1",
+          "percentComplete": 100,
+          "status": "on-track",
+          "owner": "Gender & Inclusion Lead",
+          "nextStep": "Confirm all 4 panelists and moderator",
+          "risk": "None"
+        },
+        {
+          "id": "pan-2",
+          "item": "Youth Innovation in Agri-Business Panel",
+          "target": "1",
+          "confirmed": "0",
+          "percentComplete": 20,
+          "status": "at-risk",
+          "owner": "Youth Programme Lead",
+          "nextStep": "Confirm moderator and 2 more panelists",
+          "risk": "Panelist availability in June uncertain"
+        },
+        {
+          "id": "pan-3",
+          "item": "Policy & Regulatory Frameworks for Exports",
+          "target": "1",
+          "confirmed": "1",
+          "percentComplete": 100,
+          "status": "on-track",
+          "owner": "Programme Lead",
+          "nextStep": "Share panel outline with participants",
+          "risk": "None"
+        }
+      ]
+    },
+    {
+      "name": "Masterclasses",
+      "items": [
+        {
+          "id": "mc-1",
+          "item": "Coffee Cupping & Sensory Evaluation",
+          "target": "1",
+          "confirmed": "1",
+          "percentComplete": 100,
+          "status": "on-track",
+          "owner": "Barista Lead",
+          "nextStep": "Arrange equipment and venue setup",
+          "risk": "None"
+        },
+        {
+          "id": "mc-2",
+          "item": "Tea Blending & Packaging Masterclass",
+          "target": "1",
+          "confirmed": "0",
+          "percentComplete": 30,
+          "status": "at-risk",
+          "owner": "Programme Coordinator",
+          "nextStep": "Confirm facilitator and supply list",
+          "risk": "Facilitator sourcing still in progress"
+        },
+        {
+          "id": "mc-3",
+          "item": "Digital Marketing for Coffee & Tea Brands",
+          "target": "1",
+          "confirmed": "0",
+          "percentComplete": 0,
+          "status": "behind",
+          "owner": "Marketing Lead",
+          "nextStep": "Identify and brief digital marketing expert",
+          "risk": "May be cut if speaker not found by April 15"
+        }
+      ]
+    },
+    {
+      "name": "Barista Competition",
+      "items": [
+        {
+          "id": "bc-1",
+          "item": "Competition Rules & Format Finalized",
+          "target": "1",
+          "confirmed": "1",
+          "percentComplete": 100,
+          "status": "on-track",
+          "owner": "Barista Lead",
+          "nextStep": "Publish rulebook to registrants",
+          "risk": "None"
+        },
+        {
+          "id": "bc-2",
+          "item": "Judges Panel Confirmed",
+          "target": "5",
+          "confirmed": "3",
+          "percentComplete": 60,
+          "status": "at-risk",
+          "owner": "Barista Lead",
+          "nextStep": "Confirm 2 remaining international judges",
+          "risk": "International judge travel costs unconfirmed"
+        },
+        {
+          "id": "bc-3",
+          "item": "Competitor Registrations",
+          "target": "30",
+          "confirmed": "12",
+          "percentComplete": 40,
+          "status": "at-risk",
+          "owner": "Registration Team",
+          "nextStep": "Open registration to all African barista networks",
+          "risk": "Late registration may limit competitor diversity"
+        }
+      ]
+    },
+    {
+      "name": "Award Gala",
+      "items": [
+        {
+          "id": "ag-1",
+          "item": "Award Categories Defined",
+          "target": "8",
+          "confirmed": "8",
+          "percentComplete": 100,
+          "status": "on-track",
+          "owner": "Programme Lead",
+          "nextStep": "Announce categories to stakeholders",
+          "risk": "None"
+        },
+        {
+          "id": "ag-2",
+          "item": "Nominations Process Open",
+          "target": "1",
+          "confirmed": "0",
+          "percentComplete": 0,
+          "status": "behind",
+          "owner": "Programme Coordinator",
+          "nextStep": "Launch online nominations portal",
+          "risk": "Nominations portal not yet built"
+        },
+        {
+          "id": "ag-3",
+          "item": "Gala MC / Host Confirmed",
+          "target": "1",
+          "confirmed": "0",
+          "percentComplete": 0,
+          "status": "behind",
+          "owner": "Events Lead",
+          "nextStep": "Contact shortlisted MC candidates",
+          "risk": "High-profile MC may request significant fee"
+        }
+      ]
+    }
+  ],
+  "operationsSections": [
+    {
+      "name": "Venue Confirmation",
+      "items": [
+        {
+          "id": "vc-1",
+          "item": "Main Exhibition Hall Booking",
+          "target": "1",
+          "confirmed": "1",
+          "percentComplete": 100,
+          "status": "on-track",
+          "owner": "Operations Lead",
+          "nextStep": "Sign final contract and pay deposit",
+          "risk": "None"
+        },
+        {
+          "id": "vc-2",
+          "item": "Conference Rooms (Breakout Sessions)",
+          "target": "4",
+          "confirmed": "4",
+          "percentComplete": 100,
+          "status": "on-track",
+          "owner": "Operations Coordinator",
+          "nextStep": "Confirm room layout requirements with venue",
+          "risk": "None"
+        },
+        {
+          "id": "vc-3",
+          "item": "Gala Dinner Venue",
+          "target": "1",
+          "confirmed": "0",
+          "percentComplete": 50,
+          "status": "at-risk",
+          "owner": "Events Lead",
+          "nextStep": "Final site visit and negotiate F&B package",
+          "risk": "Two venue options — decision needed by April 10"
+        }
+      ]
+    },
+    {
+      "name": "Exhibition Build-up",
+      "items": [
+        {
+          "id": "eb-1",
+          "item": "Stand Builder / Contractor Appointed",
+          "target": "1",
+          "confirmed": "1",
+          "percentComplete": 100,
+          "status": "on-track",
+          "owner": "Operations Lead",
+          "nextStep": "Submit booth specs and layout to contractor",
+          "risk": "None"
+        },
+        {
+          "id": "eb-2",
+          "item": "Shell Scheme Booths Ready",
+          "target": "152",
+          "confirmed": "80",
+          "percentComplete": 53,
+          "status": "at-risk",
+          "owner": "Operations Coordinator",
+          "nextStep": "Confirm final booth count with contractor",
+          "risk": "Contractor capacity may limit booth numbers"
+        },
+        {
+          "id": "eb-3",
+          "item": "Branding & Signage Installation",
+          "target": "1",
+          "confirmed": "0",
+          "percentComplete": 10,
+          "status": "behind",
+          "owner": "Marketing Lead",
+          "nextStep": "Approve final design files and send to print",
+          "risk": "Print lead time 3 weeks — artwork must be approved by May 1"
+        }
+      ]
+    },
+    {
+      "name": "Floor Plan",
+      "items": [
+        {
+          "id": "fp-1",
+          "item": "Floor Plan Draft v1 Approved",
+          "target": "1",
+          "confirmed": "1",
+          "percentComplete": 100,
+          "status": "on-track",
+          "owner": "Operations Lead",
+          "nextStep": "Share with exhibitors for booth selection",
+          "risk": "None"
+        },
+        {
+          "id": "fp-2",
+          "item": "Exhibitor Booth Assignments Sent",
+          "target": "152",
+          "confirmed": "45",
+          "percentComplete": 30,
+          "status": "behind",
+          "owner": "Operations Coordinator",
+          "nextStep": "Complete assignments for all confirmed exhibitors",
+          "risk": "Latecomers may have limited booth choice"
+        },
+        {
+          "id": "fp-3",
+          "item": "Catering & Networking Zones Mapped",
+          "target": "1",
+          "confirmed": "1",
+          "percentComplete": 100,
+          "status": "on-track",
+          "owner": "Operations Lead",
+          "nextStep": "Brief F&B vendor on zone layout",
+          "risk": "None"
+        }
+      ]
+    },
+    {
+      "name": "Production (AV & Staging)",
+      "items": [
+        {
+          "id": "av-1",
+          "item": "AV Supplier / Production Company Appointed",
+          "target": "1",
+          "confirmed": "1",
+          "percentComplete": 100,
+          "status": "on-track",
+          "owner": "Operations Lead",
+          "nextStep": "Provide technical rider and schedule",
+          "risk": "None"
+        },
+        {
+          "id": "av-2",
+          "item": "Main Stage Setup (Plenary)",
+          "target": "1",
+          "confirmed": "0",
+          "percentComplete": 40,
+          "status": "at-risk",
+          "owner": "Operations Coordinator",
+          "nextStep": "Confirm stage dimensions and backdrop design",
+          "risk": "Stage design pending sponsor branding approval"
+        },
+        {
+          "id": "av-3",
+          "item": "Live Streaming Setup",
+          "target": "1",
+          "confirmed": "0",
+          "percentComplete": 0,
+          "status": "behind",
+          "owner": "Digital Lead",
+          "nextStep": "Brief digital partner on streaming requirements",
+          "risk": "No confirmed streaming partner yet — needed by May 1"
+        }
+      ]
+    },
+    {
+      "name": "Delegate Management",
+      "items": [
+        {
+          "id": "dm-1",
+          "item": "Registration Platform Live",
+          "target": "1",
+          "confirmed": "1",
+          "percentComplete": 100,
+          "status": "on-track",
+          "owner": "Digital Lead",
+          "nextStep": "Monitor registrations and send confirmation emails",
+          "risk": "None"
+        },
+        {
+          "id": "dm-2",
+          "item": "Accreditation & Badge Design",
+          "target": "1",
+          "confirmed": "0",
+          "percentComplete": 60,
+          "status": "at-risk",
+          "owner": "Operations Coordinator",
+          "nextStep": "Finalize badge design and print specifications",
+          "risk": "Badge design pending final delegate categories"
+        },
+        {
+          "id": "dm-3",
+          "item": "Airport Transfers & Accommodation List",
+          "target": "100",
+          "confirmed": "30",
+          "percentComplete": 30,
+          "status": "behind",
+          "owner": "Hosted Buyers Lead",
+          "nextStep": "Collect travel details from all hosted delegates",
+          "risk": "Many hosted buyers yet to confirm travel dates"
+        }
+      ]
+    },
+    {
+      "name": "Matchmaking Platform",
+      "items": [
+        {
+          "id": "mp-1",
+          "item": "Platform Vendor Selected",
+          "target": "1",
+          "confirmed": "1",
+          "percentComplete": 100,
+          "status": "on-track",
+          "owner": "Digital Lead",
+          "nextStep": "Complete data migration and profile setup",
+          "risk": "None"
+        },
+        {
+          "id": "mp-2",
+          "item": "Buyer & Exhibitor Profiles Uploaded",
+          "target": "252",
+          "confirmed": "60",
+          "percentComplete": 24,
+          "status": "behind",
+          "owner": "Digital Lead",
+          "nextStep": "Send profile completion reminders to participants",
+          "risk": "Low completion rate may reduce meeting bookings"
+        },
+        {
+          "id": "mp-3",
+          "item": "Meeting Scheduler Open to Participants",
+          "target": "1",
+          "confirmed": "0",
+          "percentComplete": 0,
+          "status": "behind",
+          "owner": "Digital Lead",
+          "nextStep": "Open scheduler once 80% profiles are complete",
+          "risk": "Delayed profile upload delays meeting scheduler launch"
+        }
+      ]
+    }
+  ],
+  "lastUpdated": "2026-04-09T19:02:13.978Z",
+  "lastUpdatedBy": "dashboard"
+}

@@ -1,0 +1,2244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Africa Coffee and Tea Expo 2026 — Market Outreach Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+  :root {
+    --leaf-green: #8DB53C;
+    --leaf-green-dark: #6B8B2A;
+    --leaf-green-light: #A8CC55;
+    --coffee-dark: #4A3728;
+    --coffee-brown: #7B6B58;
+    --coffee-mid: #9A8472;
+    --coffee-light: #B5A090;
+    --slate-gray: #5A5A5A;
+    --slate-gray-light: #8A8A8A;
+    --gold: #C8A42A;
+    --gold-light: #DEB94A;
+    --cream: #FAF7F2;
+    --cream-dark: #F0EAE0;
+    --green-status: #5A9C3A;
+    --amber: #D4880E;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: linear-gradient(160deg, #FAF7F2 0%, #F0EAE0 50%, #EDE8E0 100%);
+    min-height: 100vh;
+    color: var(--coffee-dark);
+  }
+
+  header {
+    background: linear-gradient(135deg, var(--coffee-dark) 0%, var(--coffee-brown) 60%, var(--coffee-mid) 100%);
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 20px rgba(74,55,40,0.35);
+  }
+
+  .header-left { display: flex; align-items: center; gap: 12px; }
+
+  .header-logo {
+    background: rgba(255,255,255,0.15);
+    border-radius: 10px;
+    padding: 6px 8px;
+    font-size: 20px;
+    line-height: 1;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    color: #fff;
+    line-height: 1.2;
+  }
+
+  header p { font-size: 11px; color: rgba(255,255,255,0.65); margin-top: 2px; }
+
+  .header-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  .btn {
+    padding: 7px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .btn-gold { background: var(--gold); color: var(--coffee-dark); }
+  .btn-gold:hover { background: var(--gold-light); }
+  .btn-outline {
+    background: rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.85);
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .btn-outline:hover { background: rgba(255,255,255,0.2); }
+  .btn-apply { background: var(--coffee-brown); color: #fff; }
+  .btn-apply:hover { background: var(--coffee-dark); }
+
+  main { max-width: 1200px; margin: 0 auto; padding: 24px 20px; }
+
+  .upload-banner {
+    background: rgba(141,181,60,0.1);
+    border: 1px solid rgba(141,181,60,0.3);
+    border-radius: 12px;
+    padding: 10px 16px;
+    margin-bottom: 20px;
+    display: none;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--leaf-green-dark);
+    font-weight: 500;
+  }
+
+  section { margin-bottom: 32px; }
+
+  .section-heading {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .section-bar {
+    width: 3px;
+    height: 40px;
+    border-radius: 4px;
+    background: linear-gradient(to bottom, var(--leaf-green), var(--coffee-brown));
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .section-heading h2 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--coffee-dark);
+  }
+
+  .section-heading p {
+    font-size: 12px;
+    color: var(--slate-gray);
+    margin-top: 2px;
+  }
+
+  /* KPI Cards */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px;
+  }
+
+  .kpi-card {
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 2px 14px rgba(74,55,40,0.1);
+    border: 1px solid rgba(123,107,88,0.15);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .kpi-card-buyers   { background: #FAF7F2; }
+  .kpi-card-delegates{ background: #FDFAF0; }
+  .kpi-card-exhibitors{ background: #F5FAF0; }
+  .kpi-card-sponsor  { background: #F3FAF2; }
+
+  .kpi-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+
+  .kpi-icon {
+    padding: 8px;
+    border-radius: 10px;
+    font-size: 16px;
+    line-height: 1;
+  }
+
+  .kpi-achieved-badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 20px;
+  }
+
+  .kpi-label {
+    font-size: 10px;
+    color: var(--slate-gray);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 12px;
+  }
+
+  /* Three-column values */
+  .kpi-values {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    margin-bottom: 12px;
+  }
+
+  .kpi-val-col { text-align: center; }
+  .kpi-val-col.bordered {
+    border-left: 1px solid rgba(123,107,88,0.2);
+    border-right: 1px solid rgba(123,107,88,0.2);
+  }
+
+  .kpi-val-title {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--slate-gray-light);
+    margin-bottom: 2px;
+  }
+
+  .kpi-val-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  /* Dual progress bars */
+  .kpi-bars { display: flex; flex-direction: column; gap: 5px; }
+
+  .kpi-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .kpi-bar-label {
+    font-size: 9px;
+    text-align: right;
+    width: 52px;
+    flex-shrink: 0;
+    color: var(--slate-gray-light);
+  }
+
+  .kpi-bar-track {
+    flex: 1;
+    height: 5px;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .kpi-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.8s ease;
+  }
+
+  .kpi-bar-pct {
+    font-size: 9px;
+    width: 26px;
+    flex-shrink: 0;
+    color: var(--slate-gray-light);
+  }
+
+  /* Weekly Tabs */
+  .week-tabs {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+
+  .week-tab {
+    padding: 5px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1.5px solid rgba(141,181,60,0.3);
+    background: rgba(255,255,255,0.6);
+    color: var(--coffee-brown);
+    transition: all 0.2s;
+  }
+
+  .week-tab.active {
+    background: var(--coffee-brown);
+    color: #fff;
+    border-color: var(--coffee-brown);
+  }
+
+  .week-tab:hover:not(.active) { background: rgba(141,181,60,0.12); }
+
+  /* Toggle */
+  .view-toggle {
+    display: flex;
+    background: rgba(255,255,255,0.5);
+    border-radius: 10px;
+    padding: 3px;
+    border: 1px solid rgba(141,181,60,0.2);
+    margin-bottom: 14px;
+    width: fit-content;
+  }
+
+  .toggle-btn {
+    padding: 6px 14px;
+    border-radius: 7px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: var(--slate-gray);
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .toggle-btn.active { background: var(--coffee-brown); color: #fff; }
+
+  /* Chart containers */
+  .chart-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 2px 12px rgba(74,55,40,0.08);
+    border: 1px solid rgba(123,107,88,0.12);
+  }
+
+  .chart-canvas-wrap { position: relative; height: 280px; }
+
+  /* Table */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+
+  .data-table th {
+    background: rgba(141,181,60,0.08);
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--coffee-dark);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+
+  .data-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(123,107,88,0.1);
+    color: var(--coffee-dark);
+  }
+
+  .data-table tr:hover td { background: rgba(141,181,60,0.05); }
+  .data-table tr.active-row td { background: rgba(141,181,60,0.1); }
+
+  .pct-badge {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 700;
+    margin-left: 4px;
+  }
+
+  .pct-green { background: rgba(141,181,60,0.15); color: var(--leaf-green-dark); }
+  .pct-amber { background: rgba(212,136,14,0.12); color: var(--amber); }
+
+  /* Two-col grid */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 768px) { .two-col { grid-template-columns: 1fr; } }
+
+  /* Regional */
+  .regional-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 768px) { .regional-grid { grid-template-columns: 1fr; } }
+
+  /* Sponsorship cards */
+  .sponsor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .sponsor-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 16px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(74,55,40,0.08);
+    border: 1.5px solid rgba(123,107,88,0.15);
+  }
+
+  .sponsor-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+
+  .sponsor-level { font-size: 13px; font-weight: 700; color: var(--coffee-dark); }
+  .sponsor-unit { font-size: 11px; color: var(--slate-gray-light); margin-top: 3px; }
+  .sponsor-total { font-size: 15px; font-weight: 700; color: var(--gold); margin-top: 5px; }
+
+  /* Hidden/shown views */
+  .view-panel { display: none; }
+  .view-panel.active { display: block; }
+
+  /* Modal */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(74,55,40,0.55);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: linear-gradient(160deg, #FAF7F2 0%, #F0EAE0 100%);
+    border-radius: 20px;
+    overflow: hidden;
+    max-width: 600px;
+    width: 100%;
+    max-height: 86vh;
+    overflow-y: auto;
+    box-shadow: 0 24px 60px rgba(74,55,40,0.4);
+  }
+
+  .modal-header {
+    background: linear-gradient(135deg, var(--coffee-dark) 0%, var(--coffee-brown) 100%);
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .modal-header-icon {
+    background: rgba(200,164,42,0.2);
+    border-radius: 10px;
+    padding: 8px;
+    font-size: 18px;
+    line-height: 1;
+  }
+
+  .modal-header h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    color: #fff;
+  }
+
+  .modal-header p { font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 2px; }
+
+  .modal-body { padding: 22px 24px; }
+
+  .template-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(200,164,42,0.3);
+    background: rgba(200,164,42,0.06);
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+  }
+
+  .template-info { display: flex; align-items: flex-start; gap: 10px; }
+  .template-info-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+
+  .template-title { font-size: 13px; font-weight: 600; color: var(--coffee-dark); }
+  .template-sub { font-size: 11px; color: var(--slate-gray); margin-top: 3px; }
+
+  .format-section { margin-bottom: 18px; }
+
+  .format-section-title {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--slate-gray);
+    margin-bottom: 8px;
+  }
+
+  .format-cols {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .format-col-tag {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 8px;
+    background: rgba(123,107,88,0.1);
+    color: var(--coffee-dark);
+  }
+
+  .drop-zone {
+    border: 2px dashed rgba(123,107,88,0.35);
+    border-radius: 16px;
+    padding: 32px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: rgba(255,255,255,0.5);
+    margin-bottom: 16px;
+  }
+
+  .drop-zone:hover, .drop-zone.dragover {
+    border-color: var(--gold);
+    background: rgba(200,164,42,0.06);
+  }
+
+  .drop-icon { font-size: 36px; margin-bottom: 10px; }
+  .drop-title { font-size: 14px; font-weight: 600; color: var(--coffee-dark); }
+  .drop-sub { font-size: 12px; color: var(--slate-gray); margin-top: 4px; }
+
+  .parse-result {
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 12px;
+    margin-bottom: 14px;
+    display: none;
+  }
+
+  .parse-success { background: rgba(141,181,60,0.12); color: var(--leaf-green-dark); border: 1px solid rgba(141,181,60,0.3); }
+  .parse-error { background: rgba(220,53,69,0.08); color: #C62828; border: 1px solid rgba(220,53,69,0.2); }
+
+  .preview-table-wrap { overflow-x: auto; margin-bottom: 16px; }
+
+  .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px; padding-top: 14px; border-top: 1px solid rgba(123,107,88,0.15); }
+
+  .btn-cancel {
+    padding: 8px 16px;
+    border-radius: 8px;
+    background: rgba(123,107,88,0.1);
+    color: var(--coffee-brown);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    transition: background 0.2s;
+  }
+
+  .btn-cancel:hover { background: rgba(123,107,88,0.18); }
+
+  input[type="file"] { display: none; }
+
+  footer {
+    border-top: 1px solid rgba(123,107,88,0.2);
+    padding: 28px 20px;
+    text-align: center;
+    margin-top: 16px;
+  }
+
+  footer .footer-inner { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 6px; }
+  footer .footer-logo { font-size: 18px; }
+  footer .footer-name { font-size: 13px; font-weight: 600; color: var(--coffee-brown); }
+  footer p { font-size: 11px; color: var(--slate-gray-light); }
+
+  @media (max-width: 600px) {
+    .kpi-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* Tab Navigation */
+  .main-tabs {
+    display: flex;
+    background: var(--cream-dark);
+    border-radius: 18px;
+    padding: 4px;
+    margin-bottom: 24px;
+    width: fit-content;
+  }
+
+  .main-tab {
+    padding: 8px 22px;
+    border-radius: 14px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: var(--slate-gray);
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .main-tab.active {
+    background: var(--coffee-dark);
+    color: #fff;
+    box-shadow: 0 1px 4px rgba(74,55,40,0.22);
+  }
+
+  /* Summary Banner */
+  .summary-banner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, var(--cream) 0%, #fff 100%);
+    border: 1px solid var(--cream-dark);
+    box-shadow: 0 2px 8px rgba(74,55,40,0.07);
+    margin-bottom: 20px;
+  }
+
+  .summary-stat-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    background: white;
+    border: 1px solid var(--cream-dark);
+    flex: 1;
+    min-width: 130px;
+    box-shadow: 0 1px 3px rgba(74,55,40,0.06);
+  }
+
+  .summary-stat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .summary-stat-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--slate-gray);
+    margin-bottom: 1px;
+  }
+
+  .summary-stat-value {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--coffee-dark);
+    line-height: 1;
+  }
+
+  .summary-stat-sub {
+    font-size: 10px;
+    color: var(--slate-gray-light);
+    margin-top: 1px;
+  }
+
+  .summary-risk-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    background: rgba(229,57,53,0.04);
+    border: 1px solid rgba(229,57,53,0.15);
+    flex: 1;
+    min-width: 180px;
+  }
+
+  .summary-risk-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #E53935;
+    margin-bottom: 2px;
+  }
+
+  .summary-risk-text {
+    font-size: 11px;
+    color: var(--coffee-dark);
+  }
+
+  /* Tab panel */
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* Tracker Section */
+  .tracker-section {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid var(--cream-dark);
+    overflow: hidden;
+    margin-bottom: 12px;
+    box-shadow: 0 1px 4px rgba(74,55,40,0.06);
+  }
+
+  .tracker-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: var(--cream);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .tracker-section-header:hover { background: rgba(141,181,60,0.06); }
+
+  .tracker-section-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .tracker-section-chevron {
+    font-size: 10px;
+    color: var(--slate-gray);
+    transition: transform 0.2s;
+  }
+
+  .tracker-section-chevron.open { transform: rotate(90deg); }
+
+  .tracker-section-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--coffee-dark);
+  }
+
+  .tracker-section-count {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    background: rgba(141,181,60,0.12);
+    color: var(--leaf-green-dark);
+  }
+
+  .tracker-section-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    color: var(--slate-gray-light);
+  }
+
+  .tracker-avg-badge {
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .tracker-table-wrap { overflow-x: auto; }
+
+  .tracker-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+  }
+
+  .tracker-table th {
+    padding: 8px 10px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--slate-gray);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    background: rgba(250,247,242,0.8);
+    border-bottom: 1px solid var(--cream-dark);
+    white-space: nowrap;
+  }
+
+  .tracker-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--cream-dark);
+    color: #1a1a1a;
+    vertical-align: middle;
+  }
+
+  .tracker-table tr:last-child td { border-bottom: none; }
+
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .mini-progress-wrap {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 70px;
+  }
+
+  .mini-progress-track {
+    flex: 1;
+    height: 4px;
+    border-radius: 2px;
+    overflow: hidden;
+    background: var(--cream-dark);
+  }
+
+  .mini-progress-fill {
+    height: 100%;
+    border-radius: 2px;
+  }
+
+  .tracker-section-body { display: none; }
+  .tracker-section-body.open { display: block; }
+</style>
+</head>
+<body>
+
+<!-- Upload Modal -->
+<div class="modal-overlay" id="uploadModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-header-icon">☕</div>
+      <div>
+        <h3>Upload Dashboard Data</h3>
+        <p>Import weekly progress data from an Excel file</p>
+      </div>
+    </div>
+    <div class="modal-body">
+
+      <div class="template-row">
+        <div class="template-info">
+          <div class="template-info-icon">📊</div>
+          <div>
+            <div class="template-title">Download Import Template</div>
+            <div class="template-sub">8-sheet template matching the official format.<br/>Fill in "Weekly Progress" — all other sheets are optional and will update the corresponding charts and trackers.</div>
+          </div>
+        </div>
+        <button class="btn btn-gold" onclick="downloadTemplate()" style="flex-shrink:0">⬇ Template</button>
+      </div>
+
+      <div class="format-section">
+        <div class="format-section-title">Sheet 1 — Weekly Progress (required)</div>
+        <div class="format-cols">
+          <span class="format-col-tag">Week</span>
+          <span class="format-col-tag">Date Range</span>
+          <span class="format-col-tag">Buyers Outreach</span>
+          <span class="format-col-tag">Buyers Reached</span>
+          <span class="format-col-tag">Delegates Outreach</span>
+          <span class="format-col-tag">Delegates Confirmed</span>
+          <span class="format-col-tag">Exhibitors Outreach</span>
+          <span class="format-col-tag">Exhibitors Confirmed</span>
+          <span class="format-col-tag">Sponsorship Outreach ($)</span>
+          <span class="format-col-tag">Sponsorship Secured ($)</span>
+          <span class="format-col-tag">Notes</span>
+        </div>
+      </div>
+
+      <div class="format-section">
+        <div class="format-section-title">Optional sheets — update additional charts</div>
+        <div class="format-cols">
+          <span class="format-col-tag" style="background:rgba(200,164,42,0.12);color:var(--gold)">KPI Summary → Metric + Target</span>
+          <span class="format-col-tag" style="background:rgba(200,164,42,0.12);color:var(--gold)">Regional Buyers → pie &amp; bar charts</span>
+          <span class="format-col-tag" style="background:rgba(200,164,42,0.12);color:var(--gold)">Delegates → delegate breakdown</span>
+          <span class="format-col-tag" style="background:rgba(200,164,42,0.12);color:var(--gold)">Exhibitors → exhibitor breakdown</span>
+          <span class="format-col-tag" style="background:rgba(200,164,42,0.12);color:var(--gold)">Sponsorship → sponsor cards &amp; chart</span>
+        </div>
+      </div>
+
+      <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+        <div class="drop-icon">📂</div>
+        <div class="drop-title">Drop your .xlsx file here</div>
+        <div class="drop-sub">or click to browse</div>
+      </div>
+      <input type="file" id="fileInput" accept=".xlsx,.xls" onchange="handleFileSelect(event)" />
+
+      <div class="parse-result" id="parseResult"></div>
+      <div class="preview-table-wrap" id="previewWrap"></div>
+
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-apply" id="applyBtn" style="display:none" onclick="applyUploadedData()">✓ Apply Data to Dashboard</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<header>
+  <div class="header-left">
+    <div class="header-logo">🌿</div>
+    <div>
+      <h1>Africa Coffee and Tea Expo 2026</h1>
+      <p>Market Outreach Dashboard — Weekly Performance Tracking</p>
+    </div>
+  </div>
+  <div class="header-buttons">
+    <button class="btn btn-outline" onclick="openModal()">⬆ Upload Data</button>
+    <button class="btn btn-gold" onclick="exportToExcel()">⬇ Export to Excel</button>
+  </div>
+</header>
+
+<main>
+  <div class="upload-banner" id="uploadBanner">
+    ✓ Custom data loaded — dashboard reflects your uploaded figures.
+  </div>
+
+  <!-- Summary Banner -->
+  <div class="summary-banner" id="summaryBanner"></div>
+
+  <!-- Tab Navigation -->
+  <div class="main-tabs">
+    <button class="main-tab active" onclick="switchMainTab('outreach', this)">Outreach</button>
+    <button class="main-tab" onclick="switchMainTab('programme', this)">Programme</button>
+    <button class="main-tab" onclick="switchMainTab('operations', this)">Operations</button>
+  </div>
+
+  <!-- Outreach Tab -->
+  <div class="tab-panel active" id="tabOutreach">
+
+  <!-- KPI Cards -->
+  <section>
+    <div class="section-heading">
+      <div class="section-bar"></div>
+      <div>
+        <h2>Performance Summary</h2>
+        <p>Current progress: Target · Outreach · Achieved — Target completion: May 31, 2026</p>
+      </div>
+    </div>
+    <div class="kpi-grid" id="kpiGrid"></div>
+  </section>
+
+  <!-- Weekly Progress -->
+  <section>
+    <div class="section-heading">
+      <div class="section-bar"></div>
+      <div>
+        <h2>Weekly Progress Tracker</h2>
+        <p>Cumulative outreach progress vs weekly target — click a week to highlight</p>
+      </div>
+    </div>
+    <div class="week-tabs" id="weekTabs"></div>
+    <div class="view-toggle">
+      <button class="toggle-btn active" onclick="switchView('chart', this)">Progress Chart</button>
+      <button class="toggle-btn" onclick="switchView('table', this)">Data Table</button>
+    </div>
+    <div class="view-panel active" id="viewChart">
+      <div class="chart-card">
+        <div class="chart-canvas-wrap"><canvas id="progressChart"></canvas></div>
+      </div>
+    </div>
+    <div class="view-panel" id="viewTable">
+      <div class="chart-card" style="overflow-x:auto">
+        <table class="data-table" id="weeklyTable"></table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Regional -->
+  <section>
+    <div class="section-heading">
+      <div class="section-bar"></div>
+      <div>
+        <h2>Regional Buyer Distribution</h2>
+        <p>100 buyer targets across 5 regions — by hosting type</p>
+      </div>
+    </div>
+    <div class="regional-grid">
+      <div class="chart-card">
+        <div class="chart-canvas-wrap"><canvas id="pieChart"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-canvas-wrap"><canvas id="stackedChart"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Delegates & Exhibitors -->
+  <section>
+    <div class="section-heading">
+      <div class="section-bar"></div>
+      <div>
+        <h2>Delegates & Exhibitors Breakdown</h2>
+        <p>Target allocation across all participant categories</p>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="chart-card">
+        <h3 style="font-size:13px;font-weight:700;color:var(--coffee-dark);margin-bottom:14px">Delegates — 1,000 Target</h3>
+        <div style="position:relative;height:320px"><canvas id="delegatesChart"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <h3 style="font-size:13px;font-weight:700;color:var(--coffee-dark);margin-bottom:14px">Exhibitors — 152 Target</h3>
+        <div style="position:relative;height:320px"><canvas id="exhibitorsChart"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sponsorship -->
+  <section>
+    <div class="section-heading">
+      <div class="section-bar"></div>
+      <div>
+        <h2>Sponsorship Projections</h2>
+        <p>$360,000 total revenue target across 5 sponsorship tiers</p>
+      </div>
+    </div>
+    <div class="sponsor-grid" id="sponsorCards"></div>
+    <div class="chart-card">
+      <div class="chart-canvas-wrap"><canvas id="sponsorChart"></canvas></div>
+    </div>
+  </section>
+
+  </div><!-- end tabOutreach -->
+
+  <!-- Programme Tab -->
+  <div class="tab-panel" id="tabProgramme">
+    <section>
+      <div class="section-heading">
+        <div class="section-bar"></div>
+        <div>
+          <h2>Programme Tracker</h2>
+          <p>Read-only status overview across all programme sections</p>
+        </div>
+      </div>
+      <div id="programmeSections"></div>
+    </section>
+  </div>
+
+  <!-- Operations Tab -->
+  <div class="tab-panel" id="tabOperations">
+    <section>
+      <div class="section-heading">
+        <div class="section-bar"></div>
+        <div>
+          <h2>Operations Tracker</h2>
+          <p>Read-only status overview across all operations sections</p>
+        </div>
+      </div>
+      <div id="operationsSections"></div>
+    </section>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-logo">🌿</span>
+      <span class="footer-name">Africa Coffee and Tea Expo 2026</span>
+    </div>
+    <p>Market Outreach Dashboard — Use "Upload Data" to import all 6 sheets and update every chart, or "Export to Excel" to download all current data.</p>
+  </footer>
+</main>
+
+<script>
+// ── Config ────────────────────────────────────────────────────────────────────
+const TOTAL_WEEKS = 11;
+const KPI_TARGETS = { buyers: 100, delegates: 1000, exhibitors: 152, sponsorship: 360000 };
+
+// Colors matching the React app palette
+const C = {
+  leafGreen:      '#8DB53C',
+  leafGreenDark:  '#6B8B2A',
+  coffeeDark:     '#4A3728',
+  coffeeBrown:    '#7B6B58',
+  coffeeMid:      '#9A8472',
+  gold:           '#C8A42A',
+  slateGray:      '#5A5A5A',
+  slateGrayLight: '#8A8A8A',
+};
+
+const REGION_COLORS = ['#7B6B58','#C8A42A','#9A8472','#8DB53C','#4A3728'];
+
+// ── Weekly Data (11 weeks: Mar 16 – May 31, 2026) ─────────────────────────────
+let weeklyData = [
+  { week:1,  date:"Mar 16–20",   buyersOutreach:18, delegatesOutreach:95,  exhibitorsOutreach:22, sponsorshipOutreach:60000, buyersReached:6, delegatesConfirmed:42, exhibitorsConfirmed:7,  sponsorshipSecured:15000, notes:"Kickoff outreach — initial buyer and delegate contacts, first sponsor discussion" },
+  { week:2,  date:"Mar 23–27",   buyersOutreach:0,  delegatesOutreach:0,   exhibitorsOutreach:0,  sponsorshipOutreach:0,      buyersReached:0,  delegatesConfirmed:0,  exhibitorsConfirmed:0,  sponsorshipSecured:0,      notes:"" },
+  { week:3,  date:"Mar 30–Apr 3",buyersOutreach:0,  delegatesOutreach:0,   exhibitorsOutreach:0,  sponsorshipOutreach:0,      buyersReached:0,  delegatesConfirmed:0,  exhibitorsConfirmed:0,  sponsorshipSecured:0,      notes:"" },
+  { week:4,  date:"Apr 6–10",    buyersOutreach:0,  delegatesOutreach:0,   exhibitorsOutreach:0,  sponsorshipOutreach:0,      buyersReached:0,  delegatesConfirmed:0,  exhibitorsConfirmed:0,  sponsorshipSecured:0,      notes:"" },
+  { week:5,  date:"Apr 13–17",   buyersOutreach:0,  delegatesOutreach:0,   exhibitorsOutreach:0,  sponsorshipOutreach:0,      buyersReached:0,  delegatesConfirmed:0,  exhibitorsConfirmed:0,  sponsorshipSecured:0,      notes:"" },
+  { week:6,  date:"Apr 20–24",   buyersOutreach:0,  delegatesOutreach:0,   exhibitorsOutreach:0,  sponsorshipOutreach:0,      buyersReached:0,  delegatesConfirmed:0,  exhibitorsConfirmed:0,  sponsorshipSecured:0,      notes:"" },
+  { week:7,  date:"Apr 27–May 1",buyersOutreach:0,  delegatesOutreach:0,   exhibitorsOutreach:0,  sponsorshipOutreach:0,      buyersReached:0,  delegatesConfirmed:0,  exhibitorsConfirmed:0,  sponsorshipSecured:0,      notes:"" },
+  { week:8,  date:"May 4–8",     buyersOutreach:0,  delegatesOutreach:0,   exhibitorsOutreach:0,  sponsorshipOutreach:0,      buyersReached:0,  delegatesConfirmed:0,  exhibitorsConfirmed:0,  sponsorshipSecured:0,      notes:"" },
+  { week:9,  date:"May 11–15",   buyersOutreach:0,  delegatesOutreach:0,   exhibitorsOutreach:0,  sponsorshipOutreach:0,      buyersReached:0,  delegatesConfirmed:0,  exhibitorsConfirmed:0,  sponsorshipSecured:0,      notes:"" },
+  { week:10, date:"May 18–22",   buyersOutreach:0,  delegatesOutreach:0,   exhibitorsOutreach:0,  sponsorshipOutreach:0,      buyersReached:0,  delegatesConfirmed:0,  exhibitorsConfirmed:0,  sponsorshipSecured:0,      notes:"" },
+  { week:11, date:"May 25–31",   buyersOutreach:0,  delegatesOutreach:0,   exhibitorsOutreach:0,  sponsorshipOutreach:0,      buyersReached:0,  delegatesConfirmed:0,  exhibitorsConfirmed:0,  sponsorshipSecured:0,      notes:"" },
+];
+
+const REGIONAL = [
+  { region:"Europe",        coffee:20, tea:12, total:32, pct:32, fully:3,  partial:18, access:6  },
+  { region:"Middle East",   coffee:10, tea:8,  total:18, pct:18, fully:11, partial:6,  access:2  },
+  { region:"North America", coffee:12, tea:6,  total:18, pct:18, fully:3,  partial:10, access:3  },
+  { region:"Asia",          coffee:8,  tea:8,  total:16, pct:16, fully:9,  partial:4,  access:3  },
+  { region:"Intra-Africa",  coffee:10, tea:6,  total:16, pct:16, fully:12, partial:2,  access:6  },
+];
+
+const DELEGATES = [
+  {name:"Cooperative & Producer Unions",        target:200, outreach:0, confirmed:0},
+  {name:"Sustainable & Climate-Smart Growers",  target:120, outreach:0, confirmed:0},
+  {name:"Agripreneurs",                          target:100, outreach:0, confirmed:0},
+  {name:"Youth in Coffee and Tea",               target:100, outreach:0, confirmed:0},
+  {name:"Financial and Logistics Sector",        target:100, outreach:0, confirmed:0},
+  {name:"Innovative Coffee & Tea Products",      target:80,  outreach:0, confirmed:0},
+  {name:"Distributors",                          target:70,  outreach:0, confirmed:0},
+  {name:"Women in Coffee & Tea",                 target:50,  outreach:0, confirmed:0},
+  {name:"Academia & Research Institutions",      target:50,  outreach:0, confirmed:0},
+  {name:"Embassies and Diplomats",               target:50,  outreach:0, confirmed:0},
+  {name:"Tea and Coffee Enthusiasts",            target:50,  outreach:0, confirmed:0},
+  {name:"Inclusive Enterprises & PWDs",          target:30,  outreach:0, confirmed:0},
+];
+
+const EXHIBITORS = [
+  {name:"Coffee Exporters & Producers",          target:40, outreach:0, confirmed:0},
+  {name:"Tea Exporters",                         target:25, outreach:0, confirmed:0},
+  {name:"Packaging & Value Addition Companies",  target:15, outreach:0, confirmed:0},
+  {name:"Retailers and Coffee Chains",           target:10, outreach:0, confirmed:0},
+  {name:"Finance Institutions",                  target:10, outreach:0, confirmed:0},
+  {name:"Trade & Export Promotion Bodies",       target:10, outreach:0, confirmed:0},
+  {name:"Logistics & Freight Companies",         target:5,  outreach:0, confirmed:0},
+  {name:"Coffee & Tea Technology Companies",     target:5,  outreach:0, confirmed:0},
+  {name:"Sustainability & Certification Bodies", target:5,  outreach:0, confirmed:0},
+  {name:"Brokers and Distributors",              target:5,  outreach:0, confirmed:0},
+  {name:"Warehouses",                            target:5,  outreach:0, confirmed:0},
+  {name:"Equipment and Machineries",             target:5,  outreach:0, confirmed:0},
+  {name:"Government Regulator",                  target:5,  outreach:0, confirmed:0},
+  {name:"Private Labels",                        target:5,  outreach:0, confirmed:0},
+  {name:"Disaster Impact on Coffee & Tea",       target:2,  outreach:0, confirmed:0},
+];
+
+const SPONSORSHIP = [
+  {level:"Platinum", unitPrice:50000, qty:1,  total:50000,  color:"#E5E4E2", outreach:0, confirmed:0},
+  {level:"Diamond",  unitPrice:35000, qty:2,  total:70000,  color:"#B9F2FF", outreach:0, confirmed:0},
+  {level:"Gold",     unitPrice:25000, qty:4,  total:100000, color:"#C8A42A", outreach:0, confirmed:0},
+  {level:"Silver",   unitPrice:15000, qty:6,  total:90000,  color:"#C0C0C0", outreach:0, confirmed:0},
+  {level:"Bronze",   unitPrice:5000,  qty:10, total:50000,  color:"#CD7F32", outreach:0, confirmed:0},
+];
+
+const PROGRAM_SECTIONS = [
+  {
+    name: "Speakers",
+    items: [
+      {id:"spk-1", item:"Keynote Speaker — Opening Ceremony", target:"1", confirmed:"1", percentComplete:100, status:"on-track", owner:"Programme Lead", nextStep:"Confirm travel logistics", risk:"None"},
+      {id:"spk-2", item:"Plenary Speakers (Industry Leaders)", target:"10", confirmed:"4", percentComplete:40, status:"at-risk", owner:"Programme Lead", nextStep:"Follow up with 3 pending confirmations", risk:"Low response rate from East Africa region"},
+      {id:"spk-3", item:"Technical Session Speakers", target:"20", confirmed:"6", percentComplete:30, status:"behind", owner:"Programme Coordinator", nextStep:"Send second round of invitations", risk:"Late confirmations may affect schedule build"},
+      {id:"spk-4", item:"Panel Moderators", target:"6", confirmed:"3", percentComplete:50, status:"at-risk", owner:"Programme Coordinator", nextStep:"Confirm 2 remaining moderators by end of week", risk:"One moderator travelling from West Africa — visa needed"},
+      {id:"spk-5", item:"Closing Ceremony Speaker", target:"1", confirmed:"0", percentComplete:0, status:"behind", owner:"Programme Lead", nextStep:"Shortlist candidates and send invitations", risk:"High-profile speaker may have scheduling conflict"},
+      {id:"spk-6", item:"Youth & Innovation Spotlight Speakers", target:"2", confirmed:"2", percentComplete:100, status:"on-track", owner:"Youth Programme Lead", nextStep:"Brief speakers on format and timing", risk:"None"},
+    ]
+  },
+  {
+    name: "Topics",
+    items: [
+      {id:"top-1", item:"Sustainability & Climate-Smart Coffee Farming", target:"1", confirmed:"1", percentComplete:100, status:"on-track", owner:"Programme Lead", nextStep:"Assign speaker and finalize abstract", risk:"None"},
+      {id:"top-2", item:"Specialty Coffee & Tea Market Trends", target:"1", confirmed:"1", percentComplete:100, status:"on-track", owner:"Programme Coordinator", nextStep:"Confirm speaker brief", risk:"None"},
+      {id:"top-3", item:"Finance & Investment in the Coffee Value Chain", target:"1", confirmed:"0", percentComplete:0, status:"behind", owner:"Programme Lead", nextStep:"Identify speaker from financial sector", risk:"No confirmed speaker yet"},
+      {id:"top-4", item:"Export Regulations & Trade Corridors", target:"1", confirmed:"1", percentComplete:100, status:"on-track", owner:"Programme Coordinator", nextStep:"Share presentation template", risk:"None"},
+    ]
+  },
+  {
+    name: "Panels",
+    items: [
+      {id:"pan-1", item:"Women in Coffee & Tea Leadership Panel", target:"1", confirmed:"1", percentComplete:100, status:"on-track", owner:"Gender & Inclusion Lead", nextStep:"Confirm all 4 panelists and moderator", risk:"None"},
+      {id:"pan-2", item:"Youth Innovation in Agri-Business Panel", target:"1", confirmed:"0", percentComplete:20, status:"at-risk", owner:"Youth Programme Lead", nextStep:"Confirm moderator and 2 more panelists", risk:"Panelist availability in June uncertain"},
+      {id:"pan-3", item:"Policy & Regulatory Frameworks for Exports", target:"1", confirmed:"1", percentComplete:100, status:"on-track", owner:"Programme Lead", nextStep:"Share panel outline with participants", risk:"None"},
+    ]
+  },
+  {
+    name: "Masterclasses",
+    items: [
+      {id:"mc-1", item:"Coffee Cupping & Sensory Evaluation", target:"1", confirmed:"1", percentComplete:100, status:"on-track", owner:"Barista Lead", nextStep:"Arrange equipment and venue setup", risk:"None"},
+      {id:"mc-2", item:"Tea Blending & Packaging Masterclass", target:"1", confirmed:"0", percentComplete:30, status:"at-risk", owner:"Programme Coordinator", nextStep:"Confirm facilitator and supply list", risk:"Facilitator sourcing still in progress"},
+      {id:"mc-3", item:"Digital Marketing for Coffee & Tea Brands", target:"1", confirmed:"0", percentComplete:0, status:"behind", owner:"Marketing Lead", nextStep:"Identify and brief digital marketing expert", risk:"May be cut if speaker not found by April 15"},
+    ]
+  },
+  {
+    name: "Barista Competition",
+    items: [
+      {id:"bc-1", item:"Competition Rules & Format Finalized", target:"1", confirmed:"1", percentComplete:100, status:"on-track", owner:"Barista Lead", nextStep:"Publish rulebook to registrants", risk:"None"},
+      {id:"bc-2", item:"Judges Panel Confirmed", target:"5", confirmed:"3", percentComplete:60, status:"at-risk", owner:"Barista Lead", nextStep:"Confirm 2 remaining international judges", risk:"International judge travel costs unconfirmed"},
+      {id:"bc-3", item:"Competitor Registrations", target:"30", confirmed:"12", percentComplete:40, status:"at-risk", owner:"Registration Team", nextStep:"Open registration to all African barista networks", risk:"Late registration may limit competitor diversity"},
+    ]
+  },
+  {
+    name: "Award Gala",
+    items: [
+      {id:"ag-1", item:"Award Categories Defined", target:"8", confirmed:"8", percentComplete:100, status:"on-track", owner:"Programme Lead", nextStep:"Announce categories to stakeholders", risk:"None"},
+      {id:"ag-2", item:"Nominations Process Open", target:"1", confirmed:"0", percentComplete:0, status:"behind", owner:"Programme Coordinator", nextStep:"Launch online nominations portal", risk:"Nominations portal not yet built"},
+      {id:"ag-3", item:"Gala MC / Host Confirmed", target:"1", confirmed:"0", percentComplete:0, status:"behind", owner:"Events Lead", nextStep:"Contact shortlisted MC candidates", risk:"High-profile MC may request significant fee"},
+    ]
+  },
+];
+
+const OPERATIONS_SECTIONS = [
+  {
+    name: "Venue Confirmation",
+    items: [
+      {id:"vc-1", item:"Main Exhibition Hall Booking", target:"1", confirmed:"1", percentComplete:100, status:"on-track", owner:"Operations Lead", nextStep:"Sign final contract and pay deposit", risk:"None"},
+      {id:"vc-2", item:"Conference Rooms (Breakout Sessions)", target:"4", confirmed:"4", percentComplete:100, status:"on-track", owner:"Operations Coordinator", nextStep:"Confirm room layout requirements with venue", risk:"None"},
+      {id:"vc-3", item:"Gala Dinner Venue", target:"1", confirmed:"0", percentComplete:50, status:"at-risk", owner:"Events Lead", nextStep:"Final site visit and negotiate F&B package", risk:"Two venue options — decision needed by April 10"},
+    ]
+  },
+  {
+    name: "Exhibition Build-up",
+    items: [
+      {id:"eb-1", item:"Stand Builder / Contractor Appointed", target:"1", confirmed:"1", percentComplete:100, status:"on-track", owner:"Operations Lead", nextStep:"Submit booth specs and layout to contractor", risk:"None"},
+      {id:"eb-2", item:"Shell Scheme Booths Ready", target:"152", confirmed:"80", percentComplete:53, status:"at-risk", owner:"Operations Coordinator", nextStep:"Confirm final booth count with contractor", risk:"Contractor capacity may limit booth numbers"},
+      {id:"eb-3", item:"Branding & Signage Installation", target:"1", confirmed:"0", percentComplete:10, status:"behind", owner:"Marketing Lead", nextStep:"Approve final design files and send to print", risk:"Print lead time 3 weeks — artwork must be approved by May 1"},
+    ]
+  },
+  {
+    name: "Floor Plan",
+    items: [
+      {id:"fp-1", item:"Floor Plan Draft v1 Approved", target:"1", confirmed:"1", percentComplete:100, status:"on-track", owner:"Operations Lead", nextStep:"Share with exhibitors for booth selection", risk:"None"},
+      {id:"fp-2", item:"Exhibitor Booth Assignments Sent", target:"152", confirmed:"45", percentComplete:30, status:"at-risk", owner:"Operations Coordinator", nextStep:"Complete assignments for all confirmed exhibitors", risk:"Latecomers may have limited booth choice"},
+      {id:"fp-3", item:"Catering & Networking Zones Mapped", target:"1", confirmed:"1", percentComplete:100, status:"on-track", owner:"Operations Lead", nextStep:"Brief F&B vendor on zone layout", risk:"None"},
+    ]
+  },
+  {
+    name: "Production (AV & Staging)",
+    items: [
+      {id:"av-1", item:"AV Supplier / Production Company Appointed", target:"1", confirmed:"1", percentComplete:100, status:"on-track", owner:"Operations Lead", nextStep:"Provide technical rider and schedule", risk:"None"},
+      {id:"av-2", item:"Main Stage Setup (Plenary)", target:"1", confirmed:"0", percentComplete:40, status:"at-risk", owner:"Operations Coordinator", nextStep:"Confirm stage dimensions and backdrop design", risk:"Stage design pending sponsor branding approval"},
+      {id:"av-3", item:"Live Streaming Setup", target:"1", confirmed:"0", percentComplete:0, status:"behind", owner:"Digital Lead", nextStep:"Brief digital partner on streaming requirements", risk:"No confirmed streaming partner yet — needed by May 1"},
+    ]
+  },
+  {
+    name: "Delegate Management",
+    items: [
+      {id:"dm-1", item:"Registration Platform Live", target:"1", confirmed:"1", percentComplete:100, status:"on-track", owner:"Digital Lead", nextStep:"Monitor registrations and send confirmation emails", risk:"None"},
+      {id:"dm-2", item:"Accreditation & Badge Design", target:"1", confirmed:"0", percentComplete:60, status:"at-risk", owner:"Operations Coordinator", nextStep:"Finalize badge design and print specifications", risk:"Badge design pending final delegate categories"},
+      {id:"dm-3", item:"Airport Transfers & Accommodation List", target:"100", confirmed:"30", percentComplete:30, status:"behind", owner:"Hosted Buyers Lead", nextStep:"Collect travel details from all hosted delegates", risk:"Many hosted buyers yet to confirm travel dates"},
+    ]
+  },
+  {
+    name: "Matchmaking Platform",
+    items: [
+      {id:"mp-1", item:"Platform Vendor Selected", target:"1", confirmed:"1", percentComplete:100, status:"on-track", owner:"Digital Lead", nextStep:"Complete data migration and profile setup", risk:"None"},
+      {id:"mp-2", item:"Buyer & Exhibitor Profiles Uploaded", target:"252", confirmed:"60", percentComplete:24, status:"behind", owner:"Digital Lead", nextStep:"Send profile completion reminders to participants", risk:"Low completion rate may reduce meeting bookings"},
+      {id:"mp-3", item:"Meeting Scheduler Open to Participants", target:"1", confirmed:"0", percentComplete:0, status:"behind", owner:"Digital Lead", nextStep:"Open scheduler once 80% profiles are complete", risk:"Delayed profile upload delays meeting scheduler launch"},
+    ]
+  },
+];
+
+let selectedWeek = 1;
+
+// ── Chart instances ────────────────────────────────────────────────────────────
+let progressChartInst = null;
+let pieChartInst = null;
+let stackedChartInst = null;
+let delegatesChartInst = null;
+let exhibitorsChartInst = null;
+let sponsorChartInst = null;
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+function pct(v, t) { return t === 0 ? 0 : Math.min(100, Math.round((v/t)*100)); }
+function weekTargetPct(weekNum) { return Math.min(100, Math.round((weekNum / TOTAL_WEEKS) * 100)); }
+function latestWithData() {
+  for (let i = weeklyData.length - 1; i >= 0; i--) {
+    const w = weeklyData[i];
+    if (w.buyersReached > 0 || w.buyersOutreach > 0) return w;
+  }
+  return weeklyData[0];
+}
+
+// ── KPI Cards ─────────────────────────────────────────────────────────────────
+function renderKpiCards() {
+  const latest = latestWithData();
+  const cards = [
+    {
+      cls: 'kpi-card-buyers',
+      icon: '☕',
+      accent: C.coffeeBrown,
+      bg: '#FAF7F2',
+      label: 'Buyer Targets',
+      target: KPI_TARGETS.buyers.toLocaleString(),
+      targetRaw: KPI_TARGETS.buyers,
+      outreach: latest.buyersOutreach.toLocaleString(),
+      outreachRaw: latest.buyersOutreach,
+      achieved: latest.buyersReached.toLocaleString(),
+      achievedRaw: latest.buyersReached,
+    },
+    {
+      cls: 'kpi-card-delegates',
+      icon: '👥',
+      accent: C.gold,
+      bg: '#FDFAF0',
+      label: 'Delegates',
+      target: KPI_TARGETS.delegates.toLocaleString(),
+      targetRaw: KPI_TARGETS.delegates,
+      outreach: latest.delegatesOutreach.toLocaleString(),
+      outreachRaw: latest.delegatesOutreach,
+      achieved: latest.delegatesConfirmed.toLocaleString(),
+      achievedRaw: latest.delegatesConfirmed,
+    },
+    {
+      cls: 'kpi-card-exhibitors',
+      icon: '🏢',
+      accent: C.leafGreenDark,
+      bg: '#F5FAF0',
+      label: 'Exhibitors',
+      target: KPI_TARGETS.exhibitors.toLocaleString(),
+      targetRaw: KPI_TARGETS.exhibitors,
+      outreach: latest.exhibitorsOutreach.toLocaleString(),
+      outreachRaw: latest.exhibitorsOutreach,
+      achieved: latest.exhibitorsConfirmed.toLocaleString(),
+      achievedRaw: latest.exhibitorsConfirmed,
+    },
+    {
+      cls: 'kpi-card-sponsor',
+      icon: '💵',
+      accent: C.leafGreen,
+      bg: '#F3FAF2',
+      label: 'Sponsorship Revenue',
+      target: '$' + (KPI_TARGETS.sponsorship/1000).toFixed(0) + 'K',
+      targetRaw: KPI_TARGETS.sponsorship,
+      outreach: '$' + (latest.sponsorshipOutreach/1000).toFixed(0) + 'K',
+      outreachRaw: latest.sponsorshipOutreach,
+      achieved: '$' + (latest.sponsorshipSecured/1000).toFixed(0) + 'K',
+      achievedRaw: latest.sponsorshipSecured,
+    },
+  ];
+
+  const grid = document.getElementById('kpiGrid');
+  grid.innerHTML = cards.map(k => {
+    const achievedPct = pct(k.achievedRaw, k.targetRaw);
+    const outreachPct = pct(k.outreachRaw, k.targetRaw);
+    return `<div class="kpi-card ${k.cls}">
+      <div class="kpi-card-header">
+        <div class="kpi-icon" style="background:${k.accent}22;color:${k.accent}">${k.icon}</div>
+        <span class="kpi-achieved-badge" style="background:${k.accent}18;color:${k.accent}">${achievedPct}% achieved</span>
+      </div>
+      <div class="kpi-label">${k.label}</div>
+      <div class="kpi-values">
+        <div class="kpi-val-col">
+          <div class="kpi-val-title">Target</div>
+          <div class="kpi-val-number" style="color:${C.coffeeDark}">${k.target}</div>
+        </div>
+        <div class="kpi-val-col bordered">
+          <div class="kpi-val-title">Outreach</div>
+          <div class="kpi-val-number" style="color:${k.accent}">${k.outreach}</div>
+        </div>
+        <div class="kpi-val-col">
+          <div class="kpi-val-title">Achieved</div>
+          <div class="kpi-val-number" style="color:${C.leafGreen}">${k.achieved}</div>
+        </div>
+      </div>
+      <div class="kpi-bars">
+        <div class="kpi-bar-row">
+          <div class="kpi-bar-label">Outreach</div>
+          <div class="kpi-bar-track" style="background:${k.accent}20">
+            <div class="kpi-bar-fill" style="width:${outreachPct}%;background:${k.accent}80"></div>
+          </div>
+          <div class="kpi-bar-pct">${outreachPct}%</div>
+        </div>
+        <div class="kpi-bar-row">
+          <div class="kpi-bar-label">Achieved</div>
+          <div class="kpi-bar-track" style="background:${C.leafGreen}20">
+            <div class="kpi-bar-fill" style="width:${achievedPct}%;background:${C.leafGreen}"></div>
+          </div>
+          <div class="kpi-bar-pct">${achievedPct}%</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── Week Tabs ─────────────────────────────────────────────────────────────────
+function renderWeekTabs() {
+  const tabs = document.getElementById('weekTabs');
+  tabs.innerHTML = weeklyData.map(w =>
+    `<button class="week-tab ${w.week === selectedWeek ? 'active' : ''}" onclick="selectWeek(${w.week})">W${w.week}</button>`
+  ).join('');
+}
+
+function selectWeek(n) {
+  selectedWeek = n;
+  renderWeekTabs();
+  renderWeeklyTable();
+}
+
+// ── View Toggle ───────────────────────────────────────────────────────────────
+function switchView(view, btn) {
+  document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById(view === 'chart' ? 'viewChart' : 'viewTable').classList.add('active');
+}
+
+// ── Progress Chart ─────────────────────────────────────────────────────────────
+function renderProgressChart() {
+  const ctx = document.getElementById('progressChart').getContext('2d');
+  if (progressChartInst) progressChartInst.destroy();
+
+  const labels = weeklyData.map(w => `Wk ${w.week}`);
+  progressChartInst = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        { label:'Weekly Target %',data: weeklyData.map(w => weekTargetPct(w.week)), borderColor:'rgba(90,90,90,0.4)', borderDash:[6,4], borderWidth:1.5, fill:false, tension:0, pointRadius:0 },
+        { label:'Buyers %',       data: weeklyData.map(w => pct(w.buyersReached, KPI_TARGETS.buyers)),       borderColor:C.coffeeBrown, backgroundColor:C.coffeeBrown+'15', fill:false, tension:0.4, pointRadius:4 },
+        { label:'Delegates %',    data: weeklyData.map(w => pct(w.delegatesConfirmed, KPI_TARGETS.delegates)), borderColor:C.gold,        backgroundColor:C.gold+'15',        fill:false, tension:0.4, pointRadius:4 },
+        { label:'Exhibitors %',   data: weeklyData.map(w => pct(w.exhibitorsConfirmed, KPI_TARGETS.exhibitors)), borderColor:C.leafGreen,   backgroundColor:C.leafGreen+'15',   fill:false, tension:0.4, pointRadius:4 },
+        { label:'Sponsorship %',  data: weeklyData.map(w => pct(w.sponsorshipSecured, KPI_TARGETS.sponsorship)), borderColor:'#9A8472',    backgroundColor:'#9A847215',        fill:false, tension:0.4, pointRadius:4 },
+      ],
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        y: { min:0, max:100, ticks:{ callback: v => v+'%' }, grid:{ color:'rgba(141,181,60,0.1)' } },
+        x: { grid:{ color:'rgba(141,181,60,0.08)' } },
+      },
+      plugins: { legend:{ position:'bottom', labels:{ usePointStyle:true, padding:16, font:{ size:11 } } } },
+    }
+  });
+}
+
+// ── Weekly Table ──────────────────────────────────────────────────────────────
+function renderWeeklyTable() {
+  const tbl = document.getElementById('weeklyTable');
+  tbl.innerHTML = `<thead><tr>
+    <th>Week</th><th>Date</th><th>Target %</th><th>Buyers</th><th>Delegates</th><th>Exhibitors</th><th>Sponsorship</th><th>Notes</th>
+  </tr></thead><tbody>` +
+  weeklyData.map(w => {
+    const isActive = w.week === selectedWeek;
+    const tp = weekTargetPct(w.week);
+    const bp = pct(w.buyersReached, KPI_TARGETS.buyers);
+    const dp = pct(w.delegatesConfirmed, KPI_TARGETS.delegates);
+    const ep = pct(w.exhibitorsConfirmed, KPI_TARGETS.exhibitors);
+    const sp = pct(w.sponsorshipSecured, KPI_TARGETS.sponsorship);
+    const cls = v => v >= tp ? 'pct-green' : 'pct-amber';
+    return `<tr class="${isActive?'active-row':''}" onclick="selectWeek(${w.week})" style="cursor:pointer">
+      <td><strong>W${w.week}</strong></td>
+      <td>${w.date}</td>
+      <td>${tp}%</td>
+      <td>${w.buyersReached}/${KPI_TARGETS.buyers} <span class="pct-badge ${cls(bp)}">${bp}%</span></td>
+      <td>${w.delegatesConfirmed.toLocaleString()} <span class="pct-badge ${cls(dp)}">${dp}%</span></td>
+      <td>${w.exhibitorsConfirmed} <span class="pct-badge ${cls(ep)}">${ep}%</span></td>
+      <td>$${(w.sponsorshipSecured/1000).toFixed(0)}K <span class="pct-badge ${cls(sp)}">${sp}%</span></td>
+      <td style="color:${C.slateGray};max-width:200px">${w.notes}</td>
+    </tr>`;
+  }).join('') + '</tbody>';
+}
+
+// ── Pie Chart ─────────────────────────────────────────────────────────────────
+function renderPieChart() {
+  const ctx = document.getElementById('pieChart').getContext('2d');
+  if (pieChartInst) pieChartInst.destroy();
+  pieChartInst = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: REGIONAL.map(r => r.region),
+      datasets: [{ data: REGIONAL.map(r => r.total), backgroundColor: REGION_COLORS, borderWidth: 2, borderColor:'#FAF7F2' }],
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position:'bottom', labels:{ usePointStyle:true, padding:14, font:{size:11} } },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw} buyers (${ctx.raw}%)` } }
+      },
+    }
+  });
+}
+
+// ── Stacked Bar ───────────────────────────────────────────────────────────────
+function renderStackedChart() {
+  const ctx = document.getElementById('stackedChart').getContext('2d');
+  if (stackedChartInst) stackedChartInst.destroy();
+  stackedChartInst = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: REGIONAL.map(r => r.region),
+      datasets: [
+        { label:'Fully Hosted',     data: REGIONAL.map(r => r.fully),   backgroundColor: C.coffeeDark, stack:'s' },
+        { label:'Partially Hosted', data: REGIONAL.map(r => r.partial), backgroundColor: C.gold,       stack:'s' },
+        { label:'Event Access',     data: REGIONAL.map(r => r.access),  backgroundColor: C.coffeeMid,  stack:'s' },
+      ],
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: { x:{ stacked:true }, y:{ stacked:true, grid:{color:'rgba(141,181,60,0.1)'} } },
+      plugins: { legend:{ position:'bottom', labels:{ usePointStyle:true, padding:14, font:{size:11} } } },
+    }
+  });
+}
+
+// ── Horizontal Bar Charts ─────────────────────────────────────────────────────
+function renderHBarChart(canvasId, data, instanceRef, setter) {
+  const ctx = document.getElementById(canvasId).getContext('2d');
+  if (instanceRef) instanceRef.destroy();
+  const hue = [28, 40, 52, 90, 100];
+  const inst = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: data.map(d => d.name.length > 28 ? d.name.slice(0,28)+'…' : d.name),
+      datasets: [{ data: data.map(d => d.target), backgroundColor: data.map((_,i) => `hsl(${25 + i*9}, 50%, ${50 - i*1.5}%)`), borderRadius:4 }],
+    },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: { legend:{ display:false } },
+      scales: { x:{ grid:{color:'rgba(141,181,60,0.1)'} }, y:{ ticks:{ font:{size:10} } } },
+    }
+  });
+  setter(inst);
+}
+
+// ── Sponsorship ───────────────────────────────────────────────────────────────
+function renderSponsorCards() {
+  const grid = document.getElementById('sponsorCards');
+  grid.innerHTML = SPONSORSHIP.map(s =>
+    `<div class="sponsor-card">
+      <div class="sponsor-badge" style="background:${s.color};color:${s.level==='Diamond'||s.level==='Platinum'?'#4A3728':'#fff'}">${s.qty}×</div>
+      <div class="sponsor-level">${s.level}</div>
+      <div class="sponsor-unit">$${(s.unitPrice/1000).toFixed(0)}K / slot</div>
+      <div class="sponsor-total">$${(s.total/1000).toFixed(0)}K total</div>
+    </div>`
+  ).join('');
+}
+
+function renderSponsorChart() {
+  const ctx = document.getElementById('sponsorChart').getContext('2d');
+  if (sponsorChartInst) sponsorChartInst.destroy();
+  sponsorChartInst = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: SPONSORSHIP.map(s => s.level),
+      datasets: [{ data: SPONSORSHIP.map(s => s.total), backgroundColor: SPONSORSHIP.map(s => s.color), borderRadius:8, borderSkipped:false }],
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend:{ display:false } },
+      scales: { y:{ ticks:{ callback: v => '$'+(v/1000)+'K' }, grid:{color:'rgba(141,181,60,0.1)'} } },
+    }
+  });
+}
+
+// ── Full render ───────────────────────────────────────────────────────────────
+function renderAll() {
+  renderKpiCards();
+  renderWeekTabs();
+  renderProgressChart();
+  renderWeeklyTable();
+  renderPieChart();
+  renderStackedChart();
+  renderHBarChart('delegatesChart', DELEGATES, delegatesChartInst, i => delegatesChartInst = i);
+  renderHBarChart('exhibitorsChart', EXHIBITORS, exhibitorsChartInst, i => exhibitorsChartInst = i);
+  renderSponsorCards();
+  renderSponsorChart();
+  renderSummaryBanner();
+  renderTrackerSections(PROGRAM_SECTIONS, 'programmeSections');
+  renderTrackerSections(OPERATIONS_SECTIONS, 'operationsSections');
+}
+
+// ── Tab switching ─────────────────────────────────────────────────────────────
+function switchMainTab(tab, btn) {
+  document.querySelectorAll('.main-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.add('active');
+}
+
+// ── Summary Banner ────────────────────────────────────────────────────────────
+function renderSummaryBanner() {
+  const allItems = PROGRAM_SECTIONS.flatMap(s => s.items);
+  const programCompletion = allItems.length > 0
+    ? Math.round(allItems.reduce((sum, i) => sum + i.percentComplete, 0) / allItems.length)
+    : 0;
+
+  const speakersSection = PROGRAM_SECTIONS[0];
+  const speakersConfirmed = speakersSection
+    ? speakersSection.items.reduce((sum, i) => sum + (parseInt(i.confirmed, 10) || 0), 0)
+    : 0;
+
+  const sponsorsClosed = SPONSORSHIP.reduce((sum, s) => sum + s.confirmed * s.unitPrice, 0);
+  const exhibitorsSigned = EXHIBITORS.reduce((sum, e) => sum + (e.confirmed || 0), 0);
+
+  const keyRiskItem = allItems.find(i => i.status === 'at-risk' || i.status === 'behind');
+  const keyRisk = keyRiskItem ? (keyRiskItem.risk && keyRiskItem.risk !== 'None' ? keyRiskItem.risk : keyRiskItem.item) : null;
+
+  const progColor = programCompletion >= 70 ? '#5A9C3A' : programCompletion >= 40 ? '#D4880E' : '#E53935';
+
+  const banner = document.getElementById('summaryBanner');
+  banner.innerHTML = `
+    <div class="summary-stat-card">
+      <div class="summary-stat-icon" style="background:${progColor}18;color:${progColor}">📈</div>
+      <div>
+        <div class="summary-stat-label">Programme Completion</div>
+        <div class="summary-stat-value" style="color:${progColor}">${programCompletion}%</div>
+        <div class="summary-stat-sub">${allItems.length} items tracked</div>
+      </div>
+    </div>
+    <div class="summary-stat-card">
+      <div class="summary-stat-icon" style="background:rgba(141,181,60,0.12);color:var(--leaf-green)">🎤</div>
+      <div>
+        <div class="summary-stat-label">Speakers Confirmed</div>
+        <div class="summary-stat-value">${speakersConfirmed}/40</div>
+        <div class="summary-stat-sub">Target: 40 speakers</div>
+      </div>
+    </div>
+    <div class="summary-stat-card">
+      <div class="summary-stat-icon" style="background:rgba(200,164,42,0.12);color:var(--gold)">🏆</div>
+      <div>
+        <div class="summary-stat-label">Sponsors Closed</div>
+        <div class="summary-stat-value">$${(sponsorsClosed/1000).toFixed(0)}k</div>
+        <div class="summary-stat-sub">of $360k target</div>
+      </div>
+    </div>
+    <div class="summary-stat-card">
+      <div class="summary-stat-icon" style="background:rgba(123,107,88,0.12);color:var(--coffee-brown)">📦</div>
+      <div>
+        <div class="summary-stat-label">Exhibitors Signed</div>
+        <div class="summary-stat-value">${exhibitorsSigned}/${KPI_TARGETS.exhibitors}</div>
+        <div class="summary-stat-sub">${Math.round((exhibitorsSigned / KPI_TARGETS.exhibitors) * 100)}% of target</div>
+      </div>
+    </div>
+    ${keyRisk ? `
+    <div class="summary-risk-card">
+      <div style="color:#E53935;font-size:14px;flex-shrink:0;margin-top:1px">⚠</div>
+      <div>
+        <div class="summary-risk-label">Key Risk</div>
+        <div class="summary-risk-text">${keyRisk}</div>
+      </div>
+    </div>
+    ` : ''}
+  `;
+}
+
+// ── Tracker helpers ───────────────────────────────────────────────────────────
+function statusBadgeHTML(status) {
+  const configs = {
+    'on-track': { label:'On Track', dot:'#5A9C3A', bg:'rgba(90,156,58,0.12)', text:'#5A9C3A' },
+    'at-risk':  { label:'At Risk',  dot:'#D4880E', bg:'rgba(212,136,14,0.12)', text:'#D4880E' },
+    'behind':   { label:'Behind',   dot:'#E53935', bg:'rgba(229,57,53,0.1)',   text:'#E53935' },
+  };
+  const c = configs[status] || configs['on-track'];
+  return `<span class="status-badge" style="background:${c.bg};color:${c.text}">
+    <span class="status-dot" style="background:${c.dot}"></span>${c.label}
+  </span>`;
+}
+
+function miniProgressHTML(value) {
+  const clamped = Math.max(0, Math.min(100, value));
+  const color = clamped >= 70 ? '#5A9C3A' : clamped >= 40 ? '#D4880E' : '#E53935';
+  return `<div class="mini-progress-wrap">
+    <div class="mini-progress-track">
+      <div class="mini-progress-fill" style="width:${clamped}%;background:${color}"></div>
+    </div>
+    <span style="font-size:10px;color:var(--slate-gray);min-width:26px">${clamped}%</span>
+  </div>`;
+}
+
+function renderTrackerSections(sections, containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  container.innerHTML = sections.map((section, sIdx) => {
+    const completedCount = section.items.filter(i => i.status === 'on-track').length;
+    const avgPct = section.items.length > 0
+      ? Math.round(section.items.reduce((sum, i) => sum + i.percentComplete, 0) / section.items.length)
+      : 0;
+    const avgColor = avgPct >= 70 ? '#5A9C3A' : avgPct >= 40 ? '#D4880E' : '#E53935';
+
+    return `<div class="tracker-section">
+      <div class="tracker-section-header" onclick="toggleTrackerSection(${sIdx}, '${containerId}')">
+        <div class="tracker-section-left">
+          <span class="tracker-section-chevron open" id="chevron-${containerId}-${sIdx}">▶</span>
+          <span class="tracker-section-name">${section.name}</span>
+          <span class="tracker-section-count">${section.items.length} items</span>
+        </div>
+        <div class="tracker-section-right">
+          <span>${completedCount}/${section.items.length} on track</span>
+          <span class="tracker-avg-badge" style="background:${avgColor}18;color:${avgColor}">${avgPct}% avg</span>
+        </div>
+      </div>
+      <div class="tracker-section-body open" id="body-${containerId}-${sIdx}">
+        <div class="tracker-table-wrap">
+          <table class="tracker-table">
+            <thead>
+              <tr>
+                <th style="min-width:160px">Item</th>
+                <th style="width:55px">Target</th>
+                <th style="width:70px">Confirmed</th>
+                <th style="width:90px">%</th>
+                <th style="width:100px">Status</th>
+                <th style="min-width:90px">Owner</th>
+                <th style="min-width:130px">Next Step</th>
+                <th style="min-width:110px">Risk</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${section.items.map(item => `
+                <tr>
+                  <td>${item.item}</td>
+                  <td>${item.target}</td>
+                  <td>${item.confirmed}</td>
+                  <td>${miniProgressHTML(item.percentComplete)}</td>
+                  <td>${statusBadgeHTML(item.status)}</td>
+                  <td>${item.owner || '—'}</td>
+                  <td>${item.nextStep || '—'}</td>
+                  <td>${item.risk || '—'}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleTrackerSection(sIdx, containerId) {
+  const body = document.getElementById('body-' + containerId + '-' + sIdx);
+  const chevron = document.getElementById('chevron-' + containerId + '-' + sIdx);
+  const isOpen = body.classList.contains('open');
+  if (isOpen) {
+    body.classList.remove('open');
+    chevron.classList.remove('open');
+  } else {
+    body.classList.add('open');
+    chevron.classList.add('open');
+  }
+}
+
+// ── Export to Excel ───────────────────────────────────────────────────────────
+function exportToExcel() {
+  const wb = XLSX.utils.book_new();
+
+  // KPI Summary
+  const latest = latestWithData();
+  const kpiRows = [
+    ["Africa Coffee and Tea Expo 2026 — Market Outreach Dashboard"],
+    ["Exported on", new Date().toLocaleDateString()],
+    [],
+    ["KPI Summary", "", "", ""],
+    ["Metric", "Target", "Achieved", "% Achievement"],
+    ["Total Buyers",            KPI_TARGETS.buyers,       latest.buyersReached,       pct(latest.buyersReached, KPI_TARGETS.buyers)+"%"],
+    ["Delegates",               KPI_TARGETS.delegates,    latest.delegatesConfirmed,  pct(latest.delegatesConfirmed, KPI_TARGETS.delegates)+"%"],
+    ["Exhibitors",              KPI_TARGETS.exhibitors,   latest.exhibitorsConfirmed, pct(latest.exhibitorsConfirmed, KPI_TARGETS.exhibitors)+"%"],
+    ["Sponsorship Revenue ($)", KPI_TARGETS.sponsorship,  latest.sponsorshipSecured,  pct(latest.sponsorshipSecured, KPI_TARGETS.sponsorship)+"%"],
+  ];
+  const ws1 = XLSX.utils.aoa_to_sheet(kpiRows);
+  ws1["!cols"] = [{wch:30},{wch:18},{wch:22},{wch:16}];
+  XLSX.utils.book_append_sheet(wb, ws1, "KPI Summary");
+
+  // Weekly Progress
+  const wRows = [
+    ["Week","Date Range","Weekly Target %","Buyers Outreach","Buyers Reached","Buyers %","Delegates Outreach","Delegates Confirmed","Delegates %","Exhibitors Outreach","Exhibitors Confirmed","Exhibitors %","Sponsorship Outreach ($)","Sponsorship Secured ($)","Sponsorship %","Notes"],
+    ...weeklyData.map(w => [
+      `Week ${w.week}`, w.date, weekTargetPct(w.week)+"%",
+      w.buyersOutreach, w.buyersReached, pct(w.buyersReached, KPI_TARGETS.buyers)+"%",
+      w.delegatesOutreach, w.delegatesConfirmed, pct(w.delegatesConfirmed, KPI_TARGETS.delegates)+"%",
+      w.exhibitorsOutreach, w.exhibitorsConfirmed, pct(w.exhibitorsConfirmed, KPI_TARGETS.exhibitors)+"%",
+      w.sponsorshipOutreach, w.sponsorshipSecured, pct(w.sponsorshipSecured, KPI_TARGETS.sponsorship)+"%",
+      w.notes
+    ])
+  ];
+  const ws2 = XLSX.utils.aoa_to_sheet(wRows);
+  ws2["!cols"] = [{wch:8},{wch:14},{wch:14},{wch:16},{wch:14},{wch:10},{wch:18},{wch:20},{wch:12},{wch:20},{wch:20},{wch:12},{wch:24},{wch:24},{wch:14},{wch:50}];
+  XLSX.utils.book_append_sheet(wb, ws2, "Weekly Progress");
+
+  // Regional
+  const rRows = [["Region","Coffee Buyers","Tea Buyers","Total","% Share","Fully Hosted","Partially Hosted","Event Access"],
+    ...REGIONAL.map(r => [r.region,r.coffee,r.tea,r.total,r.pct+"%",r.fully,r.partial,r.access]),
+    [],["TOTAL",
+      REGIONAL.reduce((s,r)=>s+r.coffee,0),REGIONAL.reduce((s,r)=>s+r.tea,0),
+      REGIONAL.reduce((s,r)=>s+r.total,0),"100%",
+      REGIONAL.reduce((s,r)=>s+r.fully,0),REGIONAL.reduce((s,r)=>s+r.partial,0),REGIONAL.reduce((s,r)=>s+r.access,0)]
+  ];
+  const ws3 = XLSX.utils.aoa_to_sheet(rRows);
+  ws3["!cols"] = [{wch:16},{wch:14},{wch:12},{wch:10},{wch:10},{wch:14},{wch:18},{wch:14}];
+  XLSX.utils.book_append_sheet(wb, ws3, "Regional Buyers");
+
+  // Delegates
+  const dTotal = DELEGATES.reduce((s,d)=>s+d.target,0);
+  const ws4 = XLSX.utils.aoa_to_sheet([["Delegate Category","Target","% of Total"],
+    ...DELEGATES.map(d=>[d.name,d.target,pct(d.target,dTotal)+"%"]),
+    [],["TOTAL",dTotal,"100%"]]);
+  ws4["!cols"] = [{wch:42},{wch:10},{wch:16}];
+  XLSX.utils.book_append_sheet(wb, ws4, "Delegates");
+
+  // Exhibitors
+  const eTotal = EXHIBITORS.reduce((s,e)=>s+e.target,0);
+  const ws5 = XLSX.utils.aoa_to_sheet([["Exhibitor Category","Target","% of Total"],
+    ...EXHIBITORS.map(e=>[e.name,e.target,pct(e.target,eTotal)+"%"]),
+    [],["TOTAL",eTotal,"100%"]]);
+  ws5["!cols"] = [{wch:45},{wch:10},{wch:16}];
+  XLSX.utils.book_append_sheet(wb, ws5, "Exhibitors");
+
+  // Sponsorship
+  const sTotal = SPONSORSHIP.reduce((s,sp)=>s+sp.total,0);
+  const ws6 = XLSX.utils.aoa_to_sheet([["Level","Unit Price ($)","Qty","Total Revenue ($)","% of Total"],
+    ...SPONSORSHIP.map(sp=>[sp.level,sp.unitPrice,sp.qty,sp.total,pct(sp.total,sTotal)+"%"]),
+    [],["TOTAL","",SPONSORSHIP.reduce((s,sp)=>s+sp.qty,0),sTotal,"100%"]]);
+  ws6["!cols"] = [{wch:14},{wch:16},{wch:8},{wch:20},{wch:14}];
+  XLSX.utils.book_append_sheet(wb, ws6, "Sponsorship");
+
+  XLSX.writeFile(wb, "Africa_Coffee_Tea_Expo_2026_Outreach.xlsx");
+}
+
+// ── Import Template ───────────────────────────────────────────────────────────
+function downloadTemplate() {
+  const wb = XLSX.utils.book_new();
+
+  // 1. Weekly Progress sheet (fill this in — required)
+  const weeklyRows = [
+    ["Week","Date Range","Buyers Outreach","Buyers Reached","Delegates Outreach","Delegates Confirmed","Exhibitors Outreach","Exhibitors Confirmed","Sponsorship Outreach ($)","Sponsorship Secured ($)","Notes"],
+    ["Week 1","Mar 16–20",18,6,95,42,22,7,60000,15000,"Kickoff outreach — initial buyer and delegate contacts, first sponsor discussion"],
+    ["Week 2","Mar 23–27","","","","","","","","",""],
+    ["Week 3","Mar 30–Apr 3","","","","","","","","",""],
+    ["Week 4","Apr 6–10","","","","","","","","",""],
+    ["Week 5","Apr 13–17","","","","","","","","",""],
+    ["Week 6","Apr 20–24","","","","","","","","",""],
+    ["Week 7","Apr 27–May 1","","","","","","","","",""],
+    ["Week 8","May 4–8","","","","","","","","",""],
+    ["Week 9","May 11–15","","","","","","","","",""],
+    ["Week 10","May 18–22","","","","","","","","",""],
+    ["Week 11","May 25–31","","","","","","","","",""],
+  ];
+  const wsWeekly = XLSX.utils.aoa_to_sheet(weeklyRows);
+  wsWeekly["!cols"] = [{wch:10},{wch:14},{wch:18},{wch:16},{wch:20},{wch:22},{wch:20},{wch:22},{wch:24},{wch:24},{wch:50}];
+  XLSX.utils.book_append_sheet(wb, wsWeekly, "Weekly Progress");
+
+  // 2. KPI Summary sheet (optional — update target numbers to change KPI cards)
+  const kpiRows = [
+    ["Metric","Target"],
+    ["Buyers",      KPI_TARGETS.buyers],
+    ["Delegates",   KPI_TARGETS.delegates],
+    ["Exhibitors",  KPI_TARGETS.exhibitors],
+    ["Sponsorship", KPI_TARGETS.sponsorship],
+  ];
+  const wsKpi = XLSX.utils.aoa_to_sheet(kpiRows);
+  wsKpi["!cols"] = [{wch:18},{wch:14}];
+  XLSX.utils.book_append_sheet(wb, wsKpi, "KPI Summary");
+
+  // 3. Regional Buyers sheet (optional — update to change pie & bar charts)
+  const rRows = [
+    ["Region","Coffee Buyers","Tea Buyers","Total","% Share","Fully Hosted","Partially Hosted","Event Access"],
+    ...REGIONAL.map(r => [r.region, r.coffee, r.tea, r.total, r.pct+"%", r.fully, r.partial, r.access]),
+  ];
+  const wsRegional = XLSX.utils.aoa_to_sheet(rRows);
+  wsRegional["!cols"] = [{wch:16},{wch:14},{wch:12},{wch:10},{wch:10},{wch:14},{wch:18},{wch:14}];
+  XLSX.utils.book_append_sheet(wb, wsRegional, "Regional Buyers");
+
+  // 4. Delegates sheet (optional — update to change delegate breakdown chart)
+  const dRows = [
+    ["Delegate Category","Target"],
+    ...DELEGATES.map(d => [d.name, d.target]),
+  ];
+  const wsDelegates = XLSX.utils.aoa_to_sheet(dRows);
+  wsDelegates["!cols"] = [{wch:42},{wch:10}];
+  XLSX.utils.book_append_sheet(wb, wsDelegates, "Delegates");
+
+  // 5. Exhibitors sheet (optional — update to change exhibitor breakdown chart)
+  const eRows = [
+    ["Exhibitor Category","Target"],
+    ...EXHIBITORS.map(e => [e.name, e.target]),
+  ];
+  const wsExhibitors = XLSX.utils.aoa_to_sheet(eRows);
+  wsExhibitors["!cols"] = [{wch:45},{wch:10}];
+  XLSX.utils.book_append_sheet(wb, wsExhibitors, "Exhibitors");
+
+  // 6. Sponsorship sheet (optional — update to change sponsor cards & chart)
+  const sRows = [
+    ["Level","Unit Price ($)","Qty","Total Revenue ($)"],
+    ...SPONSORSHIP.map(sp => [sp.level, sp.unitPrice, sp.qty, sp.total]),
+  ];
+  const wsSponsorship = XLSX.utils.aoa_to_sheet(sRows);
+  wsSponsorship["!cols"] = [{wch:14},{wch:16},{wch:8},{wch:20}];
+  XLSX.utils.book_append_sheet(wb, wsSponsorship, "Sponsorship");
+
+  // 7. Programme sheet (optional — update to change Programme tab tracker)
+  const progRows = [
+    ["Section","Item","Target","Confirmed","% Complete","Status","Owner","Next Step","Risk"],
+    ...PROGRAM_SECTIONS.flatMap(sec =>
+      sec.items.map(it => [sec.name, it.item, it.target, it.confirmed, it.percentComplete, it.status, it.owner, it.nextStep, it.risk])
+    ),
+  ];
+  const wsProg = XLSX.utils.aoa_to_sheet(progRows);
+  wsProg["!cols"] = [{wch:22},{wch:42},{wch:10},{wch:12},{wch:12},{wch:12},{wch:22},{wch:40},{wch:40}];
+  XLSX.utils.book_append_sheet(wb, wsProg, "Programme");
+
+  // 8. Operations sheet (optional — update to change Operations tab tracker)
+  const opsRows = [
+    ["Section","Item","Target","Confirmed","% Complete","Status","Owner","Next Step","Risk"],
+    ...OPERATIONS_SECTIONS.flatMap(sec =>
+      sec.items.map(it => [sec.name, it.item, it.target, it.confirmed, it.percentComplete, it.status, it.owner, it.nextStep, it.risk])
+    ),
+  ];
+  const wsOps = XLSX.utils.aoa_to_sheet(opsRows);
+  wsOps["!cols"] = [{wch:26},{wch:42},{wch:10},{wch:12},{wch:12},{wch:12},{wch:22},{wch:40},{wch:40}];
+  XLSX.utils.book_append_sheet(wb, wsOps, "Operations");
+
+  XLSX.writeFile(wb, "Africa_Coffee_Tea_Expo_2026_Import_Template.xlsx");
+}
+
+// ── Upload Modal ──────────────────────────────────────────────────────────────
+function openModal() { document.getElementById('uploadModal').classList.add('open'); }
+
+function closeModal() {
+  document.getElementById('uploadModal').classList.remove('open');
+  parsedUpload = null;
+  const pr = document.getElementById('parseResult');
+  pr.style.display = 'none';
+  pr.className = 'parse-result';
+  document.getElementById('previewWrap').innerHTML = '';
+  document.getElementById('applyBtn').style.display = 'none';
+  document.getElementById('fileInput').value = '';
+}
+
+function handleFileSelect(e) {
+  const file = e.target.files[0];
+  if (file) processFile(file);
+}
+
+function processFile(file) {
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const wb = XLSX.read(e.target.result, { type:'array' });
+
+      // ── 1. Weekly Progress sheet ──────────────────────────────────────────
+      const wpName = wb.SheetNames.find(n => n.trim().toLowerCase() === 'weekly progress') || wb.SheetNames[0];
+      const wsWP = wb.Sheets[wpName];
+      const wpRows = XLSX.utils.sheet_to_json(wsWP, { defval:'' });
+
+      if (wpRows.length === 0) {
+        showParseError('No data rows found in the "Weekly Progress" sheet.');
+        return;
+      }
+
+      const parsed = [];
+      const warnings = [];
+
+      wpRows.forEach((row, idx) => {
+        const rawWeek = row['Week'] || row['week'] || '';
+        const weekStr = String(rawWeek).replace(/^week\s*/i,'').trim();
+        const weekNum = parseInt(weekStr, 10);
+        if (isNaN(weekNum) || weekNum < 1) { warnings.push(`Row ${idx+2}: Skipped — invalid Week value.`); return; }
+
+        const buyersOutreach     = parseNum(row['Buyers Outreach'] || row['buyers outreach'] || '');
+        const buyersReached      = parseNum(row['Buyers Reached'] || row['buyers reached'] || '');
+        const delegatesOutreach  = parseNum(row['Delegates Outreach'] || row['delegates outreach'] || '');
+        const delegatesConfirmed = parseNum(row['Delegates Confirmed'] || row['delegates confirmed'] || '');
+        const exhibitorsOutreach = parseNum(row['Exhibitors Outreach'] || row['exhibitors outreach'] || '');
+        const exhibitorsConfirmed= parseNum(row['Exhibitors Confirmed'] || row['exhibitors confirmed'] || '');
+        const sponsorOutreach    = parseNum(row['Sponsorship Outreach ($)'] || row['Sponsorship Outreach'] || '');
+        const sponsorSecured     = parseNum(row['Sponsorship Secured ($)'] || row['Sponsorship Secured'] || '');
+
+        parsed.push({
+          week: weekNum,
+          date: String(row['Date Range'] || row['Date'] || `Week ${weekNum}`).trim(),
+          buyersOutreach:     isNaN(buyersOutreach)     ? 0 : buyersOutreach,
+          buyersReached:      isNaN(buyersReached)      ? 0 : buyersReached,
+          delegatesOutreach:  isNaN(delegatesOutreach)  ? 0 : delegatesOutreach,
+          delegatesConfirmed: isNaN(delegatesConfirmed) ? 0 : delegatesConfirmed,
+          exhibitorsOutreach: isNaN(exhibitorsOutreach) ? 0 : exhibitorsOutreach,
+          exhibitorsConfirmed:isNaN(exhibitorsConfirmed)? 0 : exhibitorsConfirmed,
+          sponsorshipOutreach:isNaN(sponsorOutreach)    ? 0 : sponsorOutreach,
+          sponsorshipSecured: isNaN(sponsorSecured)     ? 0 : sponsorSecured,
+          notes: String(row['Notes'] || row['notes'] || '').trim(),
+        });
+      });
+
+      parsed.sort((a,b) => a.week - b.week);
+
+      if (parsed.length === 0) {
+        showParseError('No valid data rows found. Please check the file format.');
+        return;
+      }
+
+      // ── 2. KPI Summary sheet ──────────────────────────────────────────────
+      let newKpiTargets = null;
+      const kpiSheetName = wb.SheetNames.find(n => n.trim().toLowerCase() === 'kpi summary');
+      if (kpiSheetName) {
+        // Try both json-object parse and raw aoa parse (handles merged header rows)
+        const kpiAoa = XLSX.utils.sheet_to_json(wb.Sheets[kpiSheetName], { header:1, defval:'' });
+        const kp = {};
+        kpiAoa.forEach(row => {
+          const metric = String(row[0] || '').toLowerCase().trim();
+          // Target is column B (index 1)
+          const val = parseFloat(String(row[1] || ''));
+          if (isNaN(val) || val <= 0) return;
+          if (metric.includes('buyer'))    kp.buyers       = Math.round(val);
+          else if (metric.includes('delegate'))  kp.delegates    = Math.round(val);
+          else if (metric.includes('exhibitor')) kp.exhibitors   = Math.round(val);
+          else if (metric.includes('sponsor'))   kp.sponsorship  = Math.round(val);
+        });
+        if (kp.buyers && kp.delegates && kp.exhibitors && kp.sponsorship) newKpiTargets = kp;
+      }
+
+      // ── 3. Regional Buyers sheet ──────────────────────────────────────────
+      let newRegional = null;
+      const regSheetName = wb.SheetNames.find(n => n.trim().toLowerCase() === 'regional buyers');
+      if (regSheetName) {
+        const regRows = XLSX.utils.sheet_to_json(wb.Sheets[regSheetName], { defval:'' });
+        const regions = [];
+        regRows.forEach(row => {
+          const region = String(row['Region'] || row['region'] || '').trim();
+          if (!region || region.toUpperCase() === 'TOTAL' || region === '') return;
+          const coffee  = parseNum(row['Coffee Buyers'] || row['Coffee'] || '');
+          const tea     = parseNum(row['Tea Buyers'] || row['Tea'] || '');
+          const total   = parseNum(row['Total'] || row['total'] || '');
+          const pctVal  = parseNum(String(row['% Share'] || row['pct'] || '').replace('%',''));
+          const fully   = parseNum(row['Fully Hosted'] || row['fully'] || '');
+          const partial = parseNum(row['Partially Hosted'] || row['partial'] || '');
+          const access  = parseNum(row['Event Access'] || row['access'] || '');
+          regions.push({
+            region,
+            coffee:  isNaN(coffee)  ? 0 : coffee,
+            tea:     isNaN(tea)     ? 0 : tea,
+            total:   isNaN(total)   ? (isNaN(coffee)?0:coffee)+(isNaN(tea)?0:tea) : total,
+            pct:     isNaN(pctVal)  ? 0 : pctVal,
+            fully:   isNaN(fully)   ? 0 : fully,
+            partial: isNaN(partial) ? 0 : partial,
+            access:  isNaN(access)  ? 0 : access,
+          });
+        });
+        if (regions.length > 0) newRegional = regions;
+      }
+
+      // ── 4. Delegates sheet ────────────────────────────────────────────────
+      let newDelegates = null;
+      const delSheetName = wb.SheetNames.find(n => n.trim().toLowerCase() === 'delegates');
+      if (delSheetName) {
+        const delRows = XLSX.utils.sheet_to_json(wb.Sheets[delSheetName], { defval:'' });
+        const delegates = [];
+        delRows.forEach(row => {
+          const name = String(row['Delegate Category'] || row['Category'] || row['Name'] || row['name'] || '').trim();
+          if (!name || name.toUpperCase() === 'TOTAL') return;
+          const target = parseNum(row['Target'] || row['target'] || '');
+          if (!isNaN(target) && target > 0) delegates.push({ name, target });
+        });
+        if (delegates.length > 0) newDelegates = delegates;
+      }
+
+      // ── 5. Exhibitors sheet ───────────────────────────────────────────────
+      let newExhibitors = null;
+      const exhSheetName = wb.SheetNames.find(n => n.trim().toLowerCase() === 'exhibitors');
+      if (exhSheetName) {
+        const exhRows = XLSX.utils.sheet_to_json(wb.Sheets[exhSheetName], { defval:'' });
+        const exhibitors = [];
+        exhRows.forEach(row => {
+          const name = String(row['Exhibitor Category'] || row['Category'] || row['Name'] || row['name'] || '').trim();
+          if (!name || name.toUpperCase() === 'TOTAL') return;
+          const target = parseNum(row['Target'] || row['target'] || '');
+          if (!isNaN(target) && target > 0) exhibitors.push({ name, target });
+        });
+        if (exhibitors.length > 0) newExhibitors = exhibitors;
+      }
+
+      // ── 6. Sponsorship sheet ──────────────────────────────────────────────
+      let newSponsorship = null;
+      const sponSheetName = wb.SheetNames.find(n => n.trim().toLowerCase() === 'sponsorship');
+      if (sponSheetName) {
+        const sponRows = XLSX.utils.sheet_to_json(wb.Sheets[sponSheetName], { defval:'' });
+        const SPON_COLORS = { Platinum:'#E5E4E2', Diamond:'#B9F2FF', Gold:'#C8A42A', Silver:'#C0C0C0', Bronze:'#CD7F32' };
+        const sponsorships = [];
+        sponRows.forEach(row => {
+          const level = String(row['Level'] || row['level'] || '').trim();
+          if (!level || level.toUpperCase() === 'TOTAL') return;
+          const unitPrice = parseNum(row['Unit Price ($)'] || row['Unit Price'] || row['Price'] || '');
+          const qty       = parseNum(row['Qty'] || row['qty'] || row['Quantity'] || '');
+          const total     = parseNum(row['Total Revenue ($)'] || row['Total Revenue'] || row['Total'] || '');
+          if (!isNaN(unitPrice) && !isNaN(qty)) {
+            const calcTotal = isNaN(total) ? unitPrice * qty : total;
+            sponsorships.push({
+              level,
+              unitPrice: isNaN(unitPrice) ? 0 : unitPrice,
+              qty:       isNaN(qty)       ? 0 : qty,
+              total:     calcTotal,
+              color:     SPON_COLORS[level] || '#9A8472',
+            });
+          }
+        });
+        if (sponsorships.length > 0) newSponsorship = sponsorships;
+      }
+
+      // ── 7. Programme sheet ────────────────────────────────────────────────
+      let newProgramme = null;
+      const progSheetName = wb.SheetNames.find(n => n.trim().toLowerCase() === 'programme');
+      if (progSheetName) {
+        const progRows = XLSX.utils.sheet_to_json(wb.Sheets[progSheetName], { defval:'' });
+        const sectionMap = {};
+        progRows.forEach(row => {
+          const sectionName = String(row['Section'] || '').trim();
+          const itemName    = String(row['Item'] || '').trim();
+          if (!sectionName || !itemName) return;
+          if (!sectionMap[sectionName]) sectionMap[sectionName] = [];
+          const pct = parseNum(row['% Complete'] || row['% complete'] || row['Percent Complete'] || '');
+          const status = String(row['Status'] || 'on-track').trim().toLowerCase().replace(' ','-');
+          const validStatus = ['on-track','at-risk','behind'].includes(status) ? status : 'on-track';
+          sectionMap[sectionName].push({
+            id: 'imp-' + sectionName.slice(0,3).toLowerCase() + '-' + sectionMap[sectionName].length,
+            item:           itemName,
+            target:         String(row['Target'] || '1').trim(),
+            confirmed:      String(row['Confirmed'] || '0').trim(),
+            percentComplete: isNaN(pct) ? 0 : Math.max(0, Math.min(100, Math.round(pct))),
+            status:         validStatus,
+            owner:          String(row['Owner'] || '').trim(),
+            nextStep:       String(row['Next Step'] || row['Next step'] || '').trim(),
+            risk:           String(row['Risk'] || row['risk'] || 'None').trim(),
+          });
+        });
+        const sections = Object.entries(sectionMap).map(([name, items]) => ({ name, items }));
+        if (sections.length > 0) newProgramme = sections;
+      }
+
+      // ── 8. Operations sheet ───────────────────────────────────────────────
+      let newOperations = null;
+      const opsSheetName = wb.SheetNames.find(n => n.trim().toLowerCase() === 'operations');
+      if (opsSheetName) {
+        const opsRows = XLSX.utils.sheet_to_json(wb.Sheets[opsSheetName], { defval:'' });
+        const sectionMap = {};
+        opsRows.forEach(row => {
+          const sectionName = String(row['Section'] || '').trim();
+          const itemName    = String(row['Item'] || '').trim();
+          if (!sectionName || !itemName) return;
+          if (!sectionMap[sectionName]) sectionMap[sectionName] = [];
+          const pct = parseNum(row['% Complete'] || row['% complete'] || row['Percent Complete'] || '');
+          const status = String(row['Status'] || 'on-track').trim().toLowerCase().replace(' ','-');
+          const validStatus = ['on-track','at-risk','behind'].includes(status) ? status : 'on-track';
+          sectionMap[sectionName].push({
+            id: 'imp-' + sectionName.slice(0,3).toLowerCase() + '-' + sectionMap[sectionName].length,
+            item:           itemName,
+            target:         String(row['Target'] || '1').trim(),
+            confirmed:      String(row['Confirmed'] || '0').trim(),
+            percentComplete: isNaN(pct) ? 0 : Math.max(0, Math.min(100, Math.round(pct))),
+            status:         validStatus,
+            owner:          String(row['Owner'] || '').trim(),
+            nextStep:       String(row['Next Step'] || row['Next step'] || '').trim(),
+            risk:           String(row['Risk'] || row['risk'] || 'None').trim(),
+          });
+        });
+        const sections = Object.entries(sectionMap).map(([name, items]) => ({ name, items }));
+        if (sections.length > 0) newOperations = sections;
+      }
+
+      parsedUpload = {
+        weeklyData: parsed,
+        kpiTargets:  newKpiTargets,
+        regional:    newRegional,
+        delegates:   newDelegates,
+        exhibitors:  newExhibitors,
+        sponsorship: newSponsorship,
+        programme:   newProgramme,
+        operations:  newOperations,
+      };
+
+      // Count updated sections
+      const sections = ['Weekly Progress'];
+      if (newKpiTargets)  sections.push('KPI Targets');
+      if (newRegional)    sections.push('Regional Buyers');
+      if (newDelegates)   sections.push('Delegates');
+      if (newExhibitors)  sections.push('Exhibitors');
+      if (newSponsorship) sections.push('Sponsorship');
+      if (newProgramme)   sections.push('Programme');
+      if (newOperations)  sections.push('Operations');
+
+      const pr = document.getElementById('parseResult');
+      pr.style.display = 'block';
+      pr.className = 'parse-result parse-success';
+      pr.textContent = `✓ Parsed ${parsed.length} week(s) from "${wpName}" — will update: ${sections.join(', ')}`;
+
+      // Preview table
+      document.getElementById('previewWrap').innerHTML = `
+        <table class="data-table" style="font-size:11px;margin-top:12px">
+          <thead><tr><th>Wk</th><th>Date</th><th>Buyers (Out/Achieved)</th><th>Delegates (Out/Conf)</th><th>Exhibitors (Out/Conf)</th><th>Sponsorship (Out/Secured)</th></tr></thead>
+          <tbody>${parsed.map(w => `<tr>
+            <td>W${w.week}</td>
+            <td>${w.date}</td>
+            <td>${w.buyersOutreach} / ${w.buyersReached}</td>
+            <td>${w.delegatesOutreach} / ${w.delegatesConfirmed}</td>
+            <td>${w.exhibitorsOutreach} / ${w.exhibitorsConfirmed}</td>
+            <td>$${(w.sponsorshipOutreach/1000).toFixed(0)}K / $${(w.sponsorshipSecured/1000).toFixed(0)}K</td>
+          </tr>`).join('')}</tbody>
+        </table>`;
+
+      document.getElementById('applyBtn').style.display = 'flex';
+    } catch(err) {
+      showParseError('Error reading file: ' + err.message);
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function parseNum(v) { return parseFloat(String(v)); }
+
+function showParseError(msg) {
+  const pr = document.getElementById('parseResult');
+  pr.style.display = 'block';
+  pr.className = 'parse-result parse-error';
+  pr.textContent = '✗ ' + msg;
+}
+
+function applyUploadedData() {
+  if (!parsedUpload) return;
+  weeklyData = parsedUpload.weeklyData;
+  if (parsedUpload.kpiTargets) {
+    KPI_TARGETS.buyers      = parsedUpload.kpiTargets.buyers;
+    KPI_TARGETS.delegates   = parsedUpload.kpiTargets.delegates;
+    KPI_TARGETS.exhibitors  = parsedUpload.kpiTargets.exhibitors;
+    KPI_TARGETS.sponsorship = parsedUpload.kpiTargets.sponsorship;
+  }
+  if (parsedUpload.regional    && parsedUpload.regional.length > 0)    REGIONAL.splice(0, REGIONAL.length, ...parsedUpload.regional);
+  if (parsedUpload.delegates   && parsedUpload.delegates.length > 0)   DELEGATES.splice(0, DELEGATES.length, ...parsedUpload.delegates);
+  if (parsedUpload.exhibitors  && parsedUpload.exhibitors.length > 0)  EXHIBITORS.splice(0, EXHIBITORS.length, ...parsedUpload.exhibitors);
+  if (parsedUpload.sponsorship && parsedUpload.sponsorship.length > 0) SPONSORSHIP.splice(0, SPONSORSHIP.length, ...parsedUpload.sponsorship);
+  if (parsedUpload.programme   && parsedUpload.programme.length > 0)   PROGRAM_SECTIONS.splice(0, PROGRAM_SECTIONS.length, ...parsedUpload.programme);
+  if (parsedUpload.operations  && parsedUpload.operations.length > 0)  OPERATIONS_SECTIONS.splice(0, OPERATIONS_SECTIONS.length, ...parsedUpload.operations);
+  selectedWeek = weeklyData[weeklyData.length - 1].week;
+  renderAll();
+  renderSummaryBanner();
+  document.getElementById('uploadBanner').style.display = 'flex';
+  closeModal();
+}
+
+// ── Drag & Drop ───────────────────────────────────────────────────────────────
+const dropZone = document.getElementById('dropZone');
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if (file) processFile(file);
+});
+
+document.getElementById('uploadModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+renderAll();
+</script>
+</body>
+</html>

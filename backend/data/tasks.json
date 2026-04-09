@@ -1,0 +1,17 @@
+[
+  {
+    "id": "cbe4e554-ad78-41e5-9e2a-22580539564e",
+    "title": "Setup venue logistics",
+    "description": "Coordinate venue setup for the expo",
+    "assignedTo": "test@example.com",
+    "assignedToName": "John Doe",
+    "createdBy": "Admin",
+    "dueDate": "2026-06-01T00:00:00.000Z",
+    "priority": "high",
+    "category": "logistics",
+    "notes": "",
+    "status": "in-progress",
+    "createdAt": "2026-04-09T17:54:26.656Z",
+    "updatedAt": "2026-04-09T17:54:40.459Z"
+  }
+]
