@@ -251,17 +251,17 @@ export function TrackerSectionTable({ section, isReadOnly, onUpdate }: TrackerSe
 
       {!collapsed ? (
         <div className="overflow-x-auto">
-          <table className="w-full text-xs border-collapse">
+          <table className="w-full text-xs border-collapse" style={{ color: "#000" }}>
             <thead>
               <tr style={{ borderBottom: `1px solid ${COLORS.creamDark}`, background: COLORS.cream + '80' }}>
-                <th className="text-left px-3 py-2 font-medium" style={{ color: COLORS.slateGray, minWidth: 160 }}>Item</th>
-                <th className="text-left px-3 py-2 font-medium" style={{ color: COLORS.slateGray, width: 60 }}>Target</th>
-                <th className="text-left px-3 py-2 font-medium" style={{ color: COLORS.slateGray, width: 72 }}>Confirmed</th>
-                <th className="text-left px-3 py-2 font-medium" style={{ color: COLORS.slateGray, width: 100 }}>%</th>
-                <th className="text-left px-3 py-2 font-medium" style={{ color: COLORS.slateGray, width: 110 }}>Status</th>
-                <th className="text-left px-3 py-2 font-medium" style={{ color: COLORS.slateGray, minWidth: 100 }}>Owner</th>
-                <th className="text-left px-3 py-2 font-medium" style={{ color: COLORS.slateGray, minWidth: 140 }}>Next Step</th>
-                <th className="text-left px-3 py-2 font-medium" style={{ color: COLORS.slateGray, minWidth: 120 }}>Risk</th>
+                <th className="text-left px-3 py-2 font-medium" style={{ color: "#000", minWidth: 160 }}>Item</th>
+                <th className="text-left px-3 py-2 font-medium" style={{ color: "#000", width: 60 }}>Target</th>
+                <th className="text-left px-3 py-2 font-medium" style={{ color: "#000", width: 72 }}>Confirmed</th>
+                <th className="text-left px-3 py-2 font-medium" style={{ color: "#000", width: 100 }}>%</th>
+                <th className="text-left px-3 py-2 font-medium" style={{ color: "#000", width: 110 }}>Status</th>
+                <th className="text-left px-3 py-2 font-medium" style={{ color: "#000", minWidth: 100 }}>Owner</th>
+                <th className="text-left px-3 py-2 font-medium" style={{ color: "#000", minWidth: 140 }}>Next Step</th>
+                <th className="text-left px-3 py-2 font-medium" style={{ color: "#000", minWidth: 120 }}>Risk</th>
                 {!isReadOnly ? <th className="px-2 py-2" style={{ width: 32 }} /> : null}
               </tr>
             </thead>
