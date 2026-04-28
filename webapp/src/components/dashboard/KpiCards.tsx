@@ -84,14 +84,14 @@ export function KpiCards() {
   // Insights are computed cumulatively across all weekly rows and are independent of any week filter.
   const cumulativeInsights = weeklyData.reduce(
     (acc, row) => ({
-      buyersOutreach: Math.max(acc.buyersOutreach, row.buyersOutreach),
-      buyersReached: Math.max(acc.buyersReached, row.buyersReached),
-      delegatesOutreach: Math.max(acc.delegatesOutreach, row.delegatesOutreach),
-      delegatesConfirmed: Math.max(acc.delegatesConfirmed, row.delegatesConfirmed),
-      exhibitorsOutreach: Math.max(acc.exhibitorsOutreach, row.exhibitorsOutreach),
-      exhibitorsConfirmed: Math.max(acc.exhibitorsConfirmed, row.exhibitorsConfirmed),
-      sponsorshipOutreach: Math.max(acc.sponsorshipOutreach, row.sponsorshipOutreach),
-      sponsorshipSecured: Math.max(acc.sponsorshipSecured, row.sponsorshipSecured),
+      buyersOutreach: acc.buyersOutreach + row.buyersOutreach,
+      buyersReached: acc.buyersReached + row.buyersReached,
+      delegatesOutreach: acc.delegatesOutreach + row.delegatesOutreach,
+      delegatesConfirmed: acc.delegatesConfirmed + row.delegatesConfirmed,
+      exhibitorsOutreach: acc.exhibitorsOutreach + row.exhibitorsOutreach,
+      exhibitorsConfirmed: acc.exhibitorsConfirmed + row.exhibitorsConfirmed,
+      sponsorshipOutreach: acc.sponsorshipOutreach + row.sponsorshipOutreach,
+      sponsorshipSecured: acc.sponsorshipSecured + row.sponsorshipSecured,
     }),
     {
       buyersOutreach: 0,
