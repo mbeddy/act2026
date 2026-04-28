@@ -194,7 +194,7 @@ function DashboardContent() {
                 title="Performance Summary"
                 subtitle="Current progress: Target · Outreach · Achieved — Target completion: May 31, 2026"
               />
-              <KpiCards selectedWeek={selectedWeek} />
+              <KpiCards />
             </section>
 
             <section>

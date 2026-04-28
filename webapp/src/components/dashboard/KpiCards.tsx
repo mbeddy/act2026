@@ -79,18 +79,11 @@ function KpiCard({ icon, label, target, outreach, achieved, achievedRaw, outreac
   );
 }
 
-interface KpiCardsProps {
-  selectedWeek?: number;
-}
-
-export function KpiCards({ selectedWeek }: KpiCardsProps) {
+export function KpiCards() {
   const { weeklyData, kpiTargets } = useDashboard();
-  const selectedWeekData = selectedWeek !== undefined
-    ? weeklyData.find((w) => w.week === selectedWeek)
-    : undefined;
-  // Fallback to latest cumulative week with data.
+  // Always use latest cumulative week with data (independent of week filter).
   const latestWithData = [...weeklyData].reverse().find((w) => w.buyersReached > 0 || w.buyersOutreach > 0) ?? weeklyData[0];
-  const activeWeekData = selectedWeekData ?? latestWithData;
+  const activeWeekData = latestWithData;
 
   if (!activeWeekData) return null;
 
