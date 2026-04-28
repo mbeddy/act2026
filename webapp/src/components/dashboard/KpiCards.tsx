@@ -81,11 +81,31 @@ function KpiCard({ icon, label, target, outreach, achieved, achievedRaw, outreac
 
 export function KpiCards() {
   const { weeklyData, kpiTargets } = useDashboard();
-  // Always use latest cumulative week with data (independent of week filter).
-  const latestWithData = [...weeklyData].reverse().find((w) => w.buyersReached > 0 || w.buyersOutreach > 0) ?? weeklyData[0];
-  const activeWeekData = latestWithData;
+  // Insights are computed cumulatively across all weekly rows and are independent of any week filter.
+  const cumulativeInsights = weeklyData.reduce(
+    (acc, row) => ({
+      buyersOutreach: Math.max(acc.buyersOutreach, row.buyersOutreach),
+      buyersReached: Math.max(acc.buyersReached, row.buyersReached),
+      delegatesOutreach: Math.max(acc.delegatesOutreach, row.delegatesOutreach),
+      delegatesConfirmed: Math.max(acc.delegatesConfirmed, row.delegatesConfirmed),
+      exhibitorsOutreach: Math.max(acc.exhibitorsOutreach, row.exhibitorsOutreach),
+      exhibitorsConfirmed: Math.max(acc.exhibitorsConfirmed, row.exhibitorsConfirmed),
+      sponsorshipOutreach: Math.max(acc.sponsorshipOutreach, row.sponsorshipOutreach),
+      sponsorshipSecured: Math.max(acc.sponsorshipSecured, row.sponsorshipSecured),
+    }),
+    {
+      buyersOutreach: 0,
+      buyersReached: 0,
+      delegatesOutreach: 0,
+      delegatesConfirmed: 0,
+      exhibitorsOutreach: 0,
+      exhibitorsConfirmed: 0,
+      sponsorshipOutreach: 0,
+      sponsorshipSecured: 0,
+    }
+  );
 
-  if (!activeWeekData) return null;
+  if (weeklyData.length === 0) return null;
 
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -93,10 +113,10 @@ export function KpiCards() {
         icon={<Coffee className="w-5 h-5" />}
         label="Buyer Targets"
         target={kpiTargets.buyers.toLocaleString()}
-        outreach={activeWeekData.buyersOutreach.toString()}
-        achieved={activeWeekData.buyersReached.toString()}
-        achievedRaw={activeWeekData.buyersReached}
-        outreachRaw={activeWeekData.buyersOutreach}
+        outreach={cumulativeInsights.buyersOutreach.toString()}
+        achieved={cumulativeInsights.buyersReached.toString()}
+        achievedRaw={cumulativeInsights.buyersReached}
+        outreachRaw={cumulativeInsights.buyersOutreach}
         targetRaw={kpiTargets.buyers}
         accent={COLORS.coffeeBrown}
         bg="#FAF7F2"
@@ -105,10 +125,10 @@ export function KpiCards() {
         icon={<Users className="w-5 h-5" />}
         label="Delegates"
         target={kpiTargets.delegates.toLocaleString()}
-        outreach={activeWeekData.delegatesOutreach.toLocaleString()}
-        achieved={activeWeekData.delegatesConfirmed.toLocaleString()}
-        achievedRaw={activeWeekData.delegatesConfirmed}
-        outreachRaw={activeWeekData.delegatesOutreach}
+        outreach={cumulativeInsights.delegatesOutreach.toLocaleString()}
+        achieved={cumulativeInsights.delegatesConfirmed.toLocaleString()}
+        achievedRaw={cumulativeInsights.delegatesConfirmed}
+        outreachRaw={cumulativeInsights.delegatesOutreach}
         targetRaw={kpiTargets.delegates}
         accent={COLORS.gold}
         bg="#FDFAF0"
@@ -117,10 +137,10 @@ export function KpiCards() {
         icon={<Building2 className="w-5 h-5" />}
         label="Exhibitors"
         target={kpiTargets.exhibitors.toLocaleString()}
-        outreach={activeWeekData.exhibitorsOutreach.toString()}
-        achieved={activeWeekData.exhibitorsConfirmed.toString()}
-        achievedRaw={activeWeekData.exhibitorsConfirmed}
-        outreachRaw={activeWeekData.exhibitorsOutreach}
+        outreach={cumulativeInsights.exhibitorsOutreach.toString()}
+        achieved={cumulativeInsights.exhibitorsConfirmed.toString()}
+        achievedRaw={cumulativeInsights.exhibitorsConfirmed}
+        outreachRaw={cumulativeInsights.exhibitorsOutreach}
         targetRaw={kpiTargets.exhibitors}
         accent={COLORS.leafGreenDark}
         bg="#F5FAF0"
@@ -129,10 +149,10 @@ export function KpiCards() {
         icon={<DollarSign className="w-5 h-5" />}
         label="Sponsorship Revenue"
         target={`$${(kpiTargets.sponsorship / 1000).toFixed(0)}K`}
-        outreach={`$${(activeWeekData.sponsorshipOutreach / 1000).toFixed(0)}K`}
-        achieved={`$${(activeWeekData.sponsorshipSecured / 1000).toFixed(0)}K`}
-        achievedRaw={activeWeekData.sponsorshipSecured}
-        outreachRaw={activeWeekData.sponsorshipOutreach}
+        outreach={`$${(cumulativeInsights.sponsorshipOutreach / 1000).toFixed(0)}K`}
+        achieved={`$${(cumulativeInsights.sponsorshipSecured / 1000).toFixed(0)}K`}
+        achievedRaw={cumulativeInsights.sponsorshipSecured}
+        outreachRaw={cumulativeInsights.sponsorshipOutreach}
         targetRaw={kpiTargets.sponsorship}
         accent={COLORS.leafGreen}
         bg="#F3FAF2"
