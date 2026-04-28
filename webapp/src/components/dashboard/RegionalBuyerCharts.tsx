@@ -108,10 +108,10 @@ export function RegionalBuyerCharts() {
     <div className="space-y-4">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Pie Chart */}
-        <Card className="border-0 shadow-md overflow-hidden">
+        <Card className="border-0 shadow-md overflow-hidden" style={{ background: "white" }}>
           <CardHeader
             className="pb-3 pt-4 px-5"
-            style={{ background: "linear-gradient(135deg, #FFF8F3, #FFF0E0)" }}
+            style={{ background: "white" }}
           >
             <div className="flex items-center gap-2">
               <Globe className="w-4 h-4" style={{ color: COLORS.coffeeBrown }} />
@@ -186,10 +186,10 @@ export function RegionalBuyerCharts() {
         </Card>
 
         {/* Outreach vs Achieved by Region */}
-        <Card className="border-0 shadow-md overflow-hidden">
+        <Card className="border-0 shadow-md overflow-hidden" style={{ background: "white" }}>
           <CardHeader
             className="pb-3 pt-4 px-5"
-            style={{ background: "linear-gradient(135deg, #FFF8F3, #FFF0E0)" }}
+            style={{ background: "white" }}
           >
             <div className="flex items-center gap-2">
               <Globe className="w-4 h-4" style={{ color: COLORS.coffeeBrown }} />
@@ -241,10 +241,10 @@ export function RegionalBuyerCharts() {
       </div>
 
       {/* Outreach & Confirmed by Region */}
-      <Card className="border-0 shadow-md overflow-hidden">
+      <Card className="border-0 shadow-md overflow-hidden" style={{ background: "white" }}>
         <CardHeader
           className="pb-3 pt-4 px-5"
-          style={{ background: "linear-gradient(135deg, #FFF8F3, #FFF0E0)" }}
+          style={{ background: "white" }}
         >
           <div className="flex items-center justify-between flex-wrap gap-2">
             <div className="flex items-center gap-2">

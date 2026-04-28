@@ -55,10 +55,10 @@ export function DelegatesChart() {
   const totalConfirmed = delegateCategories.reduce((s, d) => s + d.confirmed, 0);
 
   return (
-    <Card className="border-0 shadow-md overflow-hidden">
+    <Card className="border-0 shadow-md overflow-hidden" style={{ background: "white" }}>
       <CardHeader
         className="pb-3 pt-4 px-5"
-        style={{ background: "linear-gradient(135deg, #FFF8F3, #FFF0E0)" }}
+        style={{ background: "white" }}
       >
         <div className="flex items-center justify-between flex-wrap gap-2">
           <div className="flex items-center gap-2">
@@ -150,10 +150,10 @@ export function ExhibitorsChart() {
   const totalConfirmed = exhibitorCategories.reduce((s, e) => s + e.confirmed, 0);
 
   return (
-    <Card className="border-0 shadow-md overflow-hidden">
+    <Card className="border-0 shadow-md overflow-hidden" style={{ background: "white" }}>
       <CardHeader
         className="pb-3 pt-4 px-5"
-        style={{ background: "linear-gradient(135deg, #FFF8F3, #FFF0E0)" }}
+        style={{ background: "white" }}
       >
         <div className="flex items-center justify-between flex-wrap gap-2">
           <div className="flex items-center gap-2">
