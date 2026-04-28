@@ -79,12 +79,20 @@ function KpiCard({ icon, label, target, outreach, achieved, achievedRaw, outreac
   );
 }
 
-export function KpiCards() {
-  const { weeklyData, kpiTargets } = useDashboard();
-  // Use the latest week that has any data
-  const latestWithData = [...weeklyData].reverse().find(w => w.buyersReached > 0 || w.buyersOutreach > 0) ?? weeklyData[0];
+interface KpiCardsProps {
+  selectedWeek?: number;
+}
 
-  if (!latestWithData) return null;
+export function KpiCards({ selectedWeek }: KpiCardsProps) {
+  const { weeklyData, kpiTargets } = useDashboard();
+  const selectedWeekData = selectedWeek !== undefined
+    ? weeklyData.find((w) => w.week === selectedWeek)
+    : undefined;
+  // Fallback to latest cumulative week with data.
+  const latestWithData = [...weeklyData].reverse().find((w) => w.buyersReached > 0 || w.buyersOutreach > 0) ?? weeklyData[0];
+  const activeWeekData = selectedWeekData ?? latestWithData;
+
+  if (!activeWeekData) return null;
 
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -92,10 +100,10 @@ export function KpiCards() {
         icon={<Coffee className="w-5 h-5" />}
         label="Buyer Targets"
         target={kpiTargets.buyers.toLocaleString()}
-        outreach={latestWithData.buyersOutreach.toString()}
-        achieved={latestWithData.buyersReached.toString()}
-        achievedRaw={latestWithData.buyersReached}
-        outreachRaw={latestWithData.buyersOutreach}
+        outreach={activeWeekData.buyersOutreach.toString()}
+        achieved={activeWeekData.buyersReached.toString()}
+        achievedRaw={activeWeekData.buyersReached}
+        outreachRaw={activeWeekData.buyersOutreach}
         targetRaw={kpiTargets.buyers}
         accent={COLORS.coffeeBrown}
         bg="#FAF7F2"
@@ -104,10 +112,10 @@ export function KpiCards() {
         icon={<Users className="w-5 h-5" />}
         label="Delegates"
         target={kpiTargets.delegates.toLocaleString()}
-        outreach={latestWithData.delegatesOutreach.toLocaleString()}
-        achieved={latestWithData.delegatesConfirmed.toLocaleString()}
-        achievedRaw={latestWithData.delegatesConfirmed}
-        outreachRaw={latestWithData.delegatesOutreach}
+        outreach={activeWeekData.delegatesOutreach.toLocaleString()}
+        achieved={activeWeekData.delegatesConfirmed.toLocaleString()}
+        achievedRaw={activeWeekData.delegatesConfirmed}
+        outreachRaw={activeWeekData.delegatesOutreach}
         targetRaw={kpiTargets.delegates}
         accent={COLORS.gold}
         bg="#FDFAF0"
@@ -116,10 +124,10 @@ export function KpiCards() {
         icon={<Building2 className="w-5 h-5" />}
         label="Exhibitors"
         target={kpiTargets.exhibitors.toLocaleString()}
-        outreach={latestWithData.exhibitorsOutreach.toString()}
-        achieved={latestWithData.exhibitorsConfirmed.toString()}
-        achievedRaw={latestWithData.exhibitorsConfirmed}
-        outreachRaw={latestWithData.exhibitorsOutreach}
+        outreach={activeWeekData.exhibitorsOutreach.toString()}
+        achieved={activeWeekData.exhibitorsConfirmed.toString()}
+        achievedRaw={activeWeekData.exhibitorsConfirmed}
+        outreachRaw={activeWeekData.exhibitorsOutreach}
         targetRaw={kpiTargets.exhibitors}
         accent={COLORS.leafGreenDark}
         bg="#F5FAF0"
@@ -128,10 +136,10 @@ export function KpiCards() {
         icon={<DollarSign className="w-5 h-5" />}
         label="Sponsorship Revenue"
         target={`$${(kpiTargets.sponsorship / 1000).toFixed(0)}K`}
-        outreach={`$${(latestWithData.sponsorshipOutreach / 1000).toFixed(0)}K`}
-        achieved={`$${(latestWithData.sponsorshipSecured / 1000).toFixed(0)}K`}
-        achievedRaw={latestWithData.sponsorshipSecured}
-        outreachRaw={latestWithData.sponsorshipOutreach}
+        outreach={`$${(activeWeekData.sponsorshipOutreach / 1000).toFixed(0)}K`}
+        achieved={`$${(activeWeekData.sponsorshipSecured / 1000).toFixed(0)}K`}
+        achievedRaw={activeWeekData.sponsorshipSecured}
+        outreachRaw={activeWeekData.sponsorshipOutreach}
         targetRaw={kpiTargets.sponsorship}
         accent={COLORS.leafGreen}
         bg="#F3FAF2"
