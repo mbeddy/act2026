@@ -61,6 +61,7 @@ interface DashboardState {
 }
 
 const BASE_URL = import.meta.env.VITE_BACKEND_URL || "";
+const LOCAL_BACKUP_KEY = "act2026-dashboard-local-backup";
 
 const DashboardContext = createContext<DashboardContextValue | null>(null);
 
@@ -80,6 +81,7 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
   );
 
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const hasHydratedRef = useRef<boolean>(false);
 
   const currentStateRef = useRef<DashboardState>({
     weeklyData,
@@ -119,16 +121,39 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
       });
       setLastSynced(new Date().toISOString());
     } catch {
-      // Silent failure — auto-sync should not disrupt UX
+      // Silent failure — local backup still protects data.
     } finally {
       setIsSyncing(false);
+    }
+  }, []);
+
+  const loadFromLocalBackup = useCallback((): boolean => {
+    try {
+      const raw = localStorage.getItem(LOCAL_BACKUP_KEY);
+      if (raw === null) return false;
+      const parsed = JSON.parse(raw) as DashboardState;
+      if (parsed.weeklyData) setWeeklyData(parsed.weeklyData);
+      if (parsed.kpiTargets) setKpiTargets(parsed.kpiTargets);
+      if (parsed.delegateCategories) setDelegateCategories(parsed.delegateCategories);
+      if (parsed.exhibitorCategories) setExhibitorCategories(parsed.exhibitorCategories);
+      if (parsed.sponsorshipLevels) setSponsorshipLevels(parsed.sponsorshipLevels);
+      if (parsed.regionalData) setRegionalData(parsed.regionalData);
+      if (parsed.programSections) setProgramSections(parsed.programSections);
+      if (parsed.operationsSections) setOperationsSections(parsed.operationsSections);
+      setLastSynced(parsed.lastUpdated ?? new Date().toISOString());
+      return true;
+    } catch {
+      return false;
     }
   }, []);
 
   const loadFromServer = useCallback(async (): Promise<void> => {
     try {
       const res = await fetch(`${BASE_URL}/api/dashboard/state`);
-      if (!res.ok) return;
+      if (!res.ok) {
+        void loadFromLocalBackup();
+        return;
+      }
       const json = await res.json() as { data: DashboardState | null };
       const serverState = json.data;
       if (serverState !== null && serverState !== undefined) {
@@ -141,11 +166,15 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
         if (serverState.programSections) setProgramSections(serverState.programSections);
         if (serverState.operationsSections) setOperationsSections(serverState.operationsSections);
         setLastSynced(new Date().toISOString());
+      } else {
+        void loadFromLocalBackup();
       }
     } catch {
-      // Silent failure — fall back to defaults
+      void loadFromLocalBackup();
+    } finally {
+      hasHydratedRef.current = true;
     }
-  }, []);
+  }, [loadFromLocalBackup]);
 
   // Load from server on mount
   useEffect(() => {
@@ -160,8 +189,26 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
     return () => clearInterval(interval);
   }, [loadFromServer]);
 
-  // Auto-save with 2-second debounce when program or operations data changes
+  // Local backup for fast recovery from browser or network issues.
   useEffect(() => {
+    const snapshot: DashboardState = {
+      weeklyData,
+      kpiTargets,
+      delegateCategories,
+      exhibitorCategories,
+      sponsorshipLevels,
+      regionalData,
+      programSections,
+      operationsSections,
+      lastUpdated: new Date().toISOString(),
+      lastUpdatedBy: "dashboard-local-backup",
+    };
+    localStorage.setItem(LOCAL_BACKUP_KEY, JSON.stringify(snapshot));
+  }, [weeklyData, kpiTargets, delegateCategories, exhibitorCategories, sponsorshipLevels, regionalData, programSections, operationsSections]);
+
+  // Auto-save with 2-second debounce when any dashboard data changes.
+  useEffect(() => {
+    if (!hasHydratedRef.current) return;
     if (debounceTimerRef.current !== null) {
       clearTimeout(debounceTimerRef.current);
     }
@@ -173,7 +220,7 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
         clearTimeout(debounceTimerRef.current);
       }
     };
-  }, [programSections, operationsSections, saveToServer]);
+  }, [weeklyData, kpiTargets, delegateCategories, exhibitorCategories, sponsorshipLevels, regionalData, programSections, operationsSections, saveToServer]);
 
   return (
     <DashboardContext.Provider

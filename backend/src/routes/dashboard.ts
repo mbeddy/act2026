@@ -4,6 +4,7 @@ import { saveSnapshot } from "./admin";
 
 const DATA_DIR = "/home/user/workspace/backend/data";
 const STATE_FILE = `${DATA_DIR}/dashboard-state.json`;
+const BACKUPS_DIR = `${DATA_DIR}/dashboard-backups`;
 
 const ProgramItemSchema = z.object({
   id: z.string(),
@@ -44,6 +45,12 @@ const dashboardRouter = new Hono();
 async function ensureDataDir(): Promise<void> {
   const fs = await import("node:fs/promises");
   await fs.mkdir(DATA_DIR, { recursive: true });
+  await fs.mkdir(BACKUPS_DIR, { recursive: true });
+}
+
+function backupFileName(): string {
+  const stamp = new Date().toISOString().replaceAll(":", "-");
+  return `${BACKUPS_DIR}/dashboard-state-${stamp}.json`;
 }
 
 dashboardRouter.get("/state", async (c) => {
@@ -80,6 +87,11 @@ dashboardRouter.post("/state", async (c) => {
 
   const { state } = parsed.data;
   await ensureDataDir();
+  const previousFile = Bun.file(STATE_FILE);
+  if (await previousFile.exists()) {
+    const previousContent = await previousFile.text();
+    await Bun.write(backupFileName(), previousContent);
+  }
   const lastUpdated = new Date().toISOString();
   const stateToSave = { ...state, lastUpdated };
   await Bun.write(STATE_FILE, JSON.stringify(stateToSave, null, 2));
